@@ -1,0 +1,33 @@
+editable_keys <% unless @editable_keys.class == NilClass -%><%=@editable_keys.class == Array ? @editable_keys * " " : @editable_keys.to_s %><%end%>
+<% unless @can_use_ssl.class == NilClass -%><%="can_use_ssl #{@can_use_ssl}"%><%end%>
+<% unless @delay.class == NilClass -%><%="delay #{@delay}"%><%end%>
+<% unless @failures.class == NilClass -%><%="failures #{@failures}"%><%end%>
+<% unless @scope_code.class == NilClass -%><%="scope #{@scope_code}"%><%end%>
+<% unless @timeout.class == NilClass -%><%="timeout #{@timeout}"%><%end%>
+<% unless @type_code.class == NilClass -%><%="type #{@type_code}"%><%end%>
+<% unless @use_ssl.class == NilClass -%><%="use_ssl #{@use_ssl}"%><%end%>
+<% unless @factory.class == NilClass -%><%="factory #{@factory}"%><%end%>
+<% unless @machine.class == NilClass -%><%="machine #{@machine}"%><%end%>
+<% if @type_code == "http" then -%>
+<% unless @host_header.class == NilClass -%><%="host_header #{@host_header}"%><%end%>
+<% unless @path.class == NilClass -%><%="path #{@path}"%><%end%>
+<% unless @authentication.class == NilClass -%><%="authentication #{@authentication}"%><%end%>
+<% unless @status_regex.class == NilClass -%><%="status_regex #{@status_regex}"%><%end%>
+<% unless @body_regex.class == NilClass -%><%="body_regex #{@body_regex}"%><%end%>
+<% end %>
+<% if @type_code == "tcp_transaction" then -%>
+<% unless @write_string.class == NilClass -%><%="write_string #{@write_string}"%><%end%>
+<% unless @response_regex.class == NilClass -%><%="response_regex #{@response_regex}"%><%end%>
+<% unless @close_string.class == NilClass -%><%="close_string #{@close_string}"%><%end%>
+<% end %>
+<% if @type_code == "sip" then -%>
+<% unless @sip_transport.class == NilClass -%><%="sip_transport #{@sip_transport}"%><%end%>
+<% unless @status_regex.class == NilClass -%><%="sip_status_regex #{@status_regex}"%><%end%>
+<% unless @body_regex.class == NilClass -%><%="sip_body_regex #{@body_regex}"%><%end%>
+<% unless @udp_accept_all.class == NilClass -%><%="udp_accept_all #{@udp_accept_all}"%><%end%>
+<% end %>
+<% if @type_code == "rtsp" then -%>
+<% unless @path.class == NilClass -%><%="rtsp_path #{@path}"%><%end%>
+<% unless @status_regex.class == NilClass -%><%="rtsp_status_regex #{@status_regex}"%><%end%>
+<% unless @body_regex.class == NilClass -%><%="rtsp_body_regex #{@body_regex}"%><%end%>
+<% end %>

@@ -1,0 +1,5 @@
+enabled <%=@enabled%>
+<% unless @ipaddresses.class == NilClass -%>ipaddresses <%=@ipaddresses.class == Array ? @ipaddresses * " " : @ipaddresses%><%end%>
+keeptogether <%=@keeptogether%>
+<% unless @machines.class == NilClass -%>machines <%=@machines.class == Array ? @machines * " " : @machines%><%end%>
+slaves <%= @passive.class == Array ? @passive * " " : @passive%>

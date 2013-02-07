@@ -1,0 +1,11 @@
+<% unless @weightings.class == NilClass then @weightings.each do |node,weight|-%>
+<%="load_balancing!weighting!#{node} #{weight}"%>
+<%end end-%>
+<% unless @maxconns.class == NilClass -%><%="max_connections_pernode #{@maxconns}"%><%end-%>
+<% unless @persistence.class == NilClass -%><%="persistence #{@persistence}"%><%end%>
+<% unless @priority.class == NilClass -%>priority!values <%=@priority.class == Array ? @priority * " " : @priority%><%end-%>
+nodes <% unless @nodes.class == NilClass -%><%=@nodes.class == Array ? @nodes * " " : @nodes.to_s %><%end%>
+monitors <%= @monitors.class == Array ? @monitors * " " : @monitors.to_s%>
+load_balancing!algorithm <%= @alg_code %>
+disabled <%= @disabled.class == Array ? @disabled * " " : @disabled%>
+draining <%= @draining.class == Array ? @draining * " " : @draining%>
