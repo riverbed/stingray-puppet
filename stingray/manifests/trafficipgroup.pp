@@ -38,9 +38,9 @@
 #
 #  stingray::trafficipgroup { 'My Traffic IP Group':
 #      ipaddress => ['192.168.1.1', '192.168.1.2'],
-#      machines => ['my stm', 'my stm 2'],
-#      passive => 'my stm 2',
-#      enabled => 'yes',
+#      machines  => ['my stm', 'my stm 2'],
+#      passive   => 'my stm 2',
+#      enabled   => 'yes',
 #  }
 #
 # === Authors

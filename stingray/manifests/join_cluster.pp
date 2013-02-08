@@ -25,7 +25,7 @@
 #
 # === Examples
 #
-#  stingray::new_cluster { 'my_cluster':
+#  stingray::join_cluster { 'my_cluster':
 #      join_cluster_host => 'The other STM',
 #      admin_password    => 'my_password',
 #      license_key       => 'puppet:///modules/stingray/license.txt

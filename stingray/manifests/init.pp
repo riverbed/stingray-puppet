@@ -42,8 +42,7 @@ class stingray (
     $tmp_dir = $stingray::params::tmp_dir,
     $install_dir = $stingray::params::install_dir,
     $version = $stingray::params::version,
-    $accept_license = 'accept'
-    #$accept_license = $stingray::params::accept_license
+    $accept_license = $stingray::params::accept_license
 
 ) inherits stingray::params {
 
