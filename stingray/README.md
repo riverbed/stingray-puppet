@@ -1,4 +1,4 @@
-# Riverbed® Stingray™ Traffic Manager module for Puppet
+# Riverbed Stingray Traffic Manager module for Puppet
 
 Riverbed Stingray Traffic Manager is a full performance software and virtual Layer 7 application delivery controller (ADC) that enables enterprises and cloud operators to create, manage, and deliver key services more quickly, more flexibly, and at a lower cost.
 
@@ -67,7 +67,7 @@ A virtual server accepts network traffic and processes it.  To manage virtual se
     }
 
 ## Other notes
-Please see the Types tab for other Stingray operations.  Supported functionality includes managing:
+Supported functionality includes managing:
 
 * Virtual Servers
 * Pools
