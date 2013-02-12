@@ -56,7 +56,7 @@ define stingray::trafficipgroup(
     $enabled = 'no',
     $machines = undef,
     $passive = '',
-    $keeptogether = 'no',
+    $keeptogether = 'no'
 
 ) {
     include stingray

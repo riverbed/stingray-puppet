@@ -21,7 +21,7 @@ Parameters:
 
 Example:
 
-    class stingray {
+    class {'stingray':
         accept_license => 'accept'
     }
 
@@ -52,9 +52,9 @@ A pool manages a group of server nodes.  To manage pools:
 A traffic ip group defines the set of IP address that the Stingray Traffic Manager will be listening on.  To manage traffic ip groups:
 
     stingray::trafficipgroup { 'My Traffic IP Group':
-        ipaddress => ['192.168.1.1', '192.168.1.2'],
-        machines  => 'My STM',
-        enabled   => 'yes',
+        ipaddresses => ['192.168.1.1', '192.168.1.2'],
+        machines    => 'My STM',
+        enabled     => 'yes'
     }
 
 ### virtual_server
@@ -63,8 +63,32 @@ A virtual server accepts network traffic and processes it.  To manage virtual se
     stingray::virtual_server { 'My Virtual Server':
         address => '!My Traffic IP',
         pool    => 'My Pool',
-        enabled => 'yes',
+        enabled => 'yes'
     }
+
+### monitor
+Monitors watch the nodes in a pool, and inform Stingray if the nodes are functioning correctly. To create a monitor:
+
+    stingray::monitor { 'My HTTP Monitor':
+        type       => 'HTTP',
+        body_regex => '.*',
+        path       => '/my_path'
+    }
+
+### persistence
+Session persistence classes can be used to direct all requests in a client session to the same node. To create a session persistence class:
+
+    stingray::persistence { 'My Persistence':
+        type => 'Transparent Session Affinity'
+    }
+
+### ssl_certificate
+Stingray can be used to offload SSL processing from your servers.  To use this feature you must import your SSL certificate to the Stingray Traffic Manager.  To import an SSL certificate:
+
+    stingray::ssl_certificate { 'My SSL Certificate':
+        certificate_file => 'puppet:///modules/stingray/cert.public',
+        private_key_file => 'puppet:///modules/stingray/cert.private'
+}
 
 ## Other notes
 Supported functionality includes managing:

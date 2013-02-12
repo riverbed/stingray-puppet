@@ -93,7 +93,7 @@ define stingray::virtual_server(
     $pool = 'discard',
     $enabled = 'no',
     $ssl_decrypt = 'no',
-    $ssl_certificate = undef,
+    $ssl_certificate = undef
 
 ) {
     include stingray

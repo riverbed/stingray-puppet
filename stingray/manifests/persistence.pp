@@ -57,7 +57,7 @@
 #
 define stingray::persistence(
     $type = 'ip-based',
-    $cookie = undef,
+    $cookie = undef
 
 ) {
     include stingray

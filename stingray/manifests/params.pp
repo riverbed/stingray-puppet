@@ -22,10 +22,10 @@ class stingray::params {
     $license_key        = ''
 
     case $::architecture {
-        'amd64':{
+        'amd64', 'x86_64':{
             $stm_arch = 'x86_64'
         }
-        'i386': {
+        'i386', 'x86': {
             $stm_arch = 'x86'
         }
         default: {

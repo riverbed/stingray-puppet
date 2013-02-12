@@ -92,7 +92,7 @@ define stingray::pool(
     $draining = '',
     $algorithm = 'Round Robin',
     $persistence = undef,
-    $maxconns = undef,
+    $maxconns = undef
 
 ) {
     include stingray
