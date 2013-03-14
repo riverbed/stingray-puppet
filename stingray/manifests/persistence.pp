@@ -26,7 +26,7 @@
 #                                   to identify sessions.
 #    'J2EE': Monitor Java's JSESSIONID cookie and URLs
 #    'ASP': Monitor ASP session cookies and ASP.NET session cookies and
-#           cookieless URLs.
+#           cookie-less URLs.
 #    'SSL Session ID': Use the SSL Session ID to identify sessions (SSL
 #                      pass-through only).
 #

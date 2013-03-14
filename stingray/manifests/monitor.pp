@@ -48,7 +48,7 @@
 #
 # [*machine*]
 # When the *scope* is set to 'Pool', the hostname or ip address of the
-# macine to monitor.  Where relevant this should be in the form
+# machine to monitor.  Where relevant this should be in the form
 # <hostname/ip>:<port>, for "ping" monitors the :<port> part must not
 # be specified.
 #
@@ -69,7 +69,7 @@
 # The default value is '3' runs.
 #
 # [*use_ssl*]
-# Whether or not the monitor should connect using SSL.  The default is 'no'.
+# Whether or not the monitor should connect using SSL?  The default is 'no'.
 # Only applicable to HTTP, TCP Transaction, SIP, and RTSP monitors.
 #
 # [*status_regex*]
@@ -111,7 +111,7 @@
 #
 # [*sip_transport*]
 # Which transport protocol the SIP monitor will use to query the server,
-# either 'UDP' or 'TCP'. The default value is 'UDP'
+# either 'UDP' or 'TCP'? The default value is 'UDP'
 # Only applicable to 'SIP' monitors.
 #
 # [*udp_accept_all*]

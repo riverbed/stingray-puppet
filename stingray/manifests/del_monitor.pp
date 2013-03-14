@@ -31,6 +31,6 @@ define stingray::del_monitor() {
 
     info ("Deleting Monitor ${name}")
     file { "${path}/zxtm/conf/monitors/${name}":
-        ensure => 'absent',
+        ensure => 'absent'
     }
 }

@@ -29,6 +29,6 @@ define stingray::del_pool() {
 
     info ("Deleting pool ${name}")
     file { "${path}/zxtm/conf/pools/${name}":
-        ensure => 'absent',
+        ensure => 'absent'
     }
 }

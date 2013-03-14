@@ -22,7 +22,7 @@
 # Please review these terms, published at http://www.riverbed.com/license
 # before proceeding.
 #
-# Set this to to 'accept' once you have read the license.
+# Set this to 'accept' once you have read the license.
 #
 # === Examples
 #

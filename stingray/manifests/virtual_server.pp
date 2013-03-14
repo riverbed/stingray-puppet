@@ -10,7 +10,7 @@
 # The name of the virtual server.
 #
 # [*address*]
-# The IP Address for this virtual server to listen.
+# The IP Address for this virtual server to listen on.
 #
 # Valid values are:
 #     - '*' which means to listen to all IP Addresses on this host.
@@ -22,8 +22,8 @@
 # The default value is '*' (listen to all IP Addresses).
 #
 # [*port*]
-# The port this virtual server listens on.  This must be a numberical
-# value, it can not be '*'.  The default is '80'.
+# The port this virtual server listens on.  This must be a numerical
+# value, it cannot be '*'.  The default is '80'.
 #
 # [*protocol*]
 # The protocol your clients and back-end nodes use. Setting it correctly
@@ -56,7 +56,7 @@
 # and process the connection.  The default is 'no'.
 #
 # [*ssl_certificate*]
-# The name of the SSL certficate to use when decrypting SSL connections.
+# The name of the SSL certificate to use when decrypting SSL connections.
 # See ssl_certificate.pp for more information on importing SSL
 # certificates for use with the Stingray Traffic Manager.
 #

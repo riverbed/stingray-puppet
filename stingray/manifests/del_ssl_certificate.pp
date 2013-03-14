@@ -9,7 +9,7 @@
 #
 # === Examples
 #
-#  stingray::del_ssl_certificate { 'my_website':
+#  stingray::del_ssl_certificate { 'My SSL Certificate':
 #  }
 #
 # === Authors
@@ -35,8 +35,8 @@ define stingray::del_ssl_certificate() {
     }
 
     file { "${path}/zxtm/conf/ssl/server_keys_config":
-        ensure => 'present'
-        alias  => 'server_keys_config',
+        ensure => 'present',
+        alias  => 'server_keys_config'
     }
 
     file_line {'public key':

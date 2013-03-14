@@ -21,7 +21,7 @@
 #
 # [*passive*]
 # Of the Stingray Traffic Managers associate with this traffic ip group,
-# which are passive.  Stigray Traffic managers in passive mode won't
+# which are passive?  Stingray Traffic managers in passive mode won't
 # have any IP addresses assigned to them unless a failure has occurred.
 #
 # [*keeptogether*]
@@ -40,7 +40,7 @@
 #      ipaddress => ['192.168.1.1', '192.168.1.2'],
 #      machines  => ['my stm', 'my stm 2'],
 #      passive   => 'my stm 2',
-#      enabled   => 'yes',
+#      enabled   => 'yes'
 #  }
 #
 # === Authors

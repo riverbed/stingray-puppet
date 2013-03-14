@@ -25,7 +25,6 @@
 #
 # Copyright 2013 Riverbed Technology
 #
-
 define stingray::del_persistence() {
     include stingray
 
@@ -33,6 +32,6 @@ define stingray::del_persistence() {
 
     info ("Deleting persistence ${name}")
     file { "${path}/zxtm/conf/persistence/${name}":
-        ensure => 'absent',
+        ensure => 'absent'
     }
 }

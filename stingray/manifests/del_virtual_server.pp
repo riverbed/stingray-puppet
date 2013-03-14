@@ -29,6 +29,6 @@ define stingray::del_virtual_server() {
 
     info ("Deleting virtual server ${name}")
     file { "${path}/zxtm/conf/vservers/${name}":
-        ensure => 'absent',
+        ensure => 'absent'
     }
 }

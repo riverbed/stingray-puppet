@@ -14,10 +14,10 @@ The modules can be installed via puppet module tool (require [version 2.7.14+](h
 
 Parameters:
 
-* install_dir: Directory to install the Stingray software tou (default: /usr/local/stingray/).
+* install_dir: Directory to install the Stingray software to (default: /usr/local/stingray/).
 * version: The version of Stingray to install (default: 9.1).
 * tmp_dir: Temp directory to use during installation (default: /tmp).
-* accept_license: Use of this software is subject to the terms of the [Riverbed End User License Agreement](http://www.riverbed.com/license).  Set this to to 'accept' once you have read the license (default: reject).
+* accept_license: Use of this software is subject to the terms of the [Riverbed End User License Agreement](http://www.riverbed.com/license).  Set this to 'accept' once you have read the license (default: reject).
 
 Example:
 
@@ -90,13 +90,5 @@ Stingray can be used to offload SSL processing from your servers.  To use this f
         private_key_file => 'puppet:///modules/stingray/cert.private'
 }
 
-## Other notes
-Supported functionality includes managing:
-
-* Virtual Servers
-* Pools
-* Traffic IP Groups
-* Monitors
-* Persistence
-* SSL Certificates
-* Global Settings
+## Further Reading
+Please see the [Reference Guide](https://splash.riverbed.com/docs/DOC-1638) for more details on all the functionality available with the Stingray Traffic Manager Puppet Module.
