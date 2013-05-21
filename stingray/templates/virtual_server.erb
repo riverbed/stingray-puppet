@@ -11,13 +11,16 @@ protocol <%= @proto_code %>
 ssl_ocsp!issuer!_DEFAULT_!aia	Yes
 ssl_ocsp!issuer!_DEFAULT_!nonce	off
 ssl_ocsp!issuer!_DEFAULT_!required	optional
-ssl_ocsp!issuer!_DEFAULT_!responder_cert	
-ssl_ocsp!issuer!_DEFAULT_!signer	
+ssl_ocsp!issuer!_DEFAULT_!responder_cert
+ssl_ocsp!issuer!_DEFAULT_!signer
 ssl_ocsp!issuer!_DEFAULT_!url<% end %>
 pool <%= @pool.class == Array ? @pool * " " : @pool%>
 <% if @response_rules then-%>
 responserules <%= @response_rules.class == Array ? @response_rules * " " : @response_rules%>
 <% end %>
+<% if @protection != :undef -%>
+protection  <%= @protection %>
+<% end -%>
 <% if @rules then -%>
 rules <%= @rules.class == Array ? @rules * " " : @rules %><% end -%>
 <% if @timeout -%>timeout <%= @timeout %><% end %>
