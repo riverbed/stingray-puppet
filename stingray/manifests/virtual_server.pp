@@ -87,13 +87,15 @@
 # Copyright 2013 Riverbed Technology
 #
 define stingray::virtual_server(
-    $address = '*',
-    $port = 80,
-    $protocol = 'http',
-    $pool = 'discard',
-    $enabled = 'no',
-    $ssl_decrypt = 'no',
-    $ssl_certificate = undef
+    $address            = '*',
+    $port               = 80,
+    $protocol           = 'http',
+    $pool               = 'discard',
+    $enabled            = 'no',
+    $ssl_decrypt        = 'no',
+    $ssl_certificate    = undef,
+    $enable_logging     = false,
+    $log_filename       = '%zeushome%/zxtm/log/%v.log'
 
 ) {
     include stingray

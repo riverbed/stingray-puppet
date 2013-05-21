@@ -7,12 +7,16 @@ private_key <%= @ssl_certificate%>.private
 public_cert <%= @ssl_certificate%>.public
 <% end -%>
 protocol <%= @proto_code %>
+<% if @enable_logging -%>
+log!enabled     Yes
+log!filename    <%= @log_filename %>
+<% end -%>
 <% if @ssl_decrypt == "yes" then -%>ssl_decrypt Yes
 ssl_ocsp!issuer!_DEFAULT_!aia	Yes
 ssl_ocsp!issuer!_DEFAULT_!nonce	off
 ssl_ocsp!issuer!_DEFAULT_!required	optional
-ssl_ocsp!issuer!_DEFAULT_!responder_cert	
-ssl_ocsp!issuer!_DEFAULT_!signer	
+ssl_ocsp!issuer!_DEFAULT_!responder_cert
+ssl_ocsp!issuer!_DEFAULT_!signer
 ssl_ocsp!issuer!_DEFAULT_!url<% end %>
 pool <%= @pool.class == Array ? @pool * " " : @pool%>
 <% if @response_rules then-%>
