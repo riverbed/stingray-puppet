@@ -16,8 +16,9 @@ ssl_ocsp!issuer!_DEFAULT_!signer
 ssl_ocsp!issuer!_DEFAULT_!url<% end %>
 pool <%= @pool.class == Array ? @pool * " " : @pool%>
 <% if @response_rules then-%>
-responserules <%= @response_rules.class == Array ? @response_rules * " " : @response_rules%>
+responserules <%= @response_rules.class == Array ? "\"" + (@response_rules * "\" \"") + "\"" : "\"" + @response_rules  + "\""%>
 <% end %>
-<% if @rules then -%>
-rules <%= @rules.class == Array ? @rules * " " : @rules %><% end -%>
+<% if @request_rules then -%>
+rules <%= @request_rules.class == Array ? "\"" + (@request_rules * "\" \"") + "\"" : "\"" + @request_rules  + "\""%>
+<% end %>
 <% if @timeout -%>timeout <%= @timeout %><% end %>

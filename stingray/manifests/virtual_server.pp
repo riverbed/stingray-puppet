@@ -60,6 +60,14 @@
 # See ssl_certificate.pp for more information on importing SSL
 # certificates for use with the Stingray Traffic Manager.
 #
+# [*request_rules*]
+# If a request rule is needed, the name of the rule to use. See rule.pp for creating
+# a rule.
+#
+# [*response_rules*]
+# If a response rule is needed, the name of the rule to use. See rule.pp for creating
+# a rule.
+#
 # === Examples
 #
 #  stingray::virtual_server { 'My Virtual Server':
@@ -93,7 +101,9 @@ define stingray::virtual_server(
     $pool = 'discard',
     $enabled = 'no',
     $ssl_decrypt = 'no',
-    $ssl_certificate = undef
+    $ssl_certificate = undef,
+    $request_rules = undef,
+    $response_rules = undef
 
 ) {
     include stingray

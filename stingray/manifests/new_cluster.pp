@@ -72,9 +72,15 @@ define stingray::new_cluster (
     }
 
     if ($license_key == '') {
+        if ($::fqdn) {
+	    $host = $::fqdn
+        } else {
+	    $host = $::hostname
+        }
+        
         file_line { 'developer_license_accepted':
             ensure  => present,
-            path    => "${path}/zxtm/conf/zxtms/${::fqdn}",
+            path    => "${path}/zxtm/conf/zxtms/${host}",
             line    => 'developer_mode_accepted yes',
             require => [ Exec['new_stingray_cluster'], ],
         }

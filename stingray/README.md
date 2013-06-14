@@ -41,6 +41,14 @@ To join an existing Stingray cluster:
         admin_password    => 'my_password'
     }
 
+### web_app
+Use Stingray Traffic Manager to manage a web application
+
+    stingray::web_app { 'My Web Application':
+        nodes      => ['192.168.22.121:80', '192.168.22.122:80'],
+        trafficips => '192.168.1.1'
+    }
+
 ### pool
 A pool manages a group of server nodes.  To manage pools:
 
