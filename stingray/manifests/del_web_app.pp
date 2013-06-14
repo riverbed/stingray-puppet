@@ -35,14 +35,14 @@ define stingray::del_web_app() {
     }
 
     stingray::del_pool { "${name} pool":
-   }
-   
+    }
+
     stingray::del_virtual_server { "${name} virtual server":
     }
 
     stingray::del_virtual_server { "${name} ssl virtual server":
     }
- 
+
     stingray::del_ssl_certificate { "${name} SSL Certificate":
     }
 }

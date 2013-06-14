@@ -1,7 +1,6 @@
 # == Define: del_rule
 #
 # Deletes a TrafficScript rule from the Stingray Traffic Manager catalog.
- 
 #
 # === Parameters
 #

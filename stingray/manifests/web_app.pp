@@ -87,7 +87,7 @@
 # The default value is '.*'.
 #
 # [*persistence_type*]
-# The session persistence type to use.  The default is 'Transparent Session Affinity', which is 
+# The session persistence type to use.  The default is 'Transparent Session Affinity', which is
 # also known as cookie based persistence.
 #
 # [*enabled*]
@@ -118,11 +118,11 @@
 #
 define stingray::web_app(
     $nodes,
+    $trafficips,
     $weightings = undef,
     $disabled = '',
     $draining = '',
     $algorithm = 'Least Connections',
-    $trafficips,
     $machines ='',
     $port = '80',
     $ssl_decrypt = 'no',
@@ -152,9 +152,9 @@ define stingray::web_app(
 
     if ($machines == '') {
         if ($::fqdn) {
-	    $tip_machines = $::fqdn
+            $tip_machines = $::fqdn
         } else {
-	    $tip_machines = $::hostname
+            $tip_machines = $::hostname
         }
     } else {
         $tip_machines = $machines
@@ -162,8 +162,8 @@ define stingray::web_app(
 
     stingray::trafficipgroup { "${name} tip":
         ipaddresses => $trafficips,
-        machines => $tip_machines,
-        enabled => $enabled
+        machines    => $tip_machines,
+        enabled     => $enabled
     }
 
     stingray::pool { "${name} pool":
@@ -172,8 +172,8 @@ define stingray::web_app(
         algorithm   => $algorithm,
         persistence => "${name} persist",
         monitors    => "${name} monitor"
-   }
-   
+    }
+
     stingray::virtual_server { "${name} virtual server":
         address  => "!${name} tip",
         protocol => 'HTTP',
@@ -191,7 +191,7 @@ define stingray::web_app(
             ssl_decrypt => 'yes',
             enabled     => $enabled
         }
- 
+
         stingray::ssl_certificate { "${name} SSL Certificate":
             certificate_file => $certificate_file,
             private_key_file => $private_key_file
