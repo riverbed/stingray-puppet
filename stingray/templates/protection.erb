@@ -1,0 +1,2 @@
+<% unless @allowed.class == NilClass -%>allowed <%= @allowed.class == Array ? @allowed * " " : @allowed %><% end -%>
+<% unless @banned.class == NilClass -%>banned <%= @banned.class == Array ? @banned * " ": @banned %><% end -%>
