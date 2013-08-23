@@ -25,4 +25,7 @@ responserules <%= @response_rules.class == Array ? "\"" + (@response_rules * "\"
 <% if @request_rules then -%>
 rules <%= @request_rules.class == Array ? "\"" + (@request_rules * "\" \"") + "\"" : "\"" + @request_rules  + "\""%>
 <% end %>
+<% if @protection != :undef -%>
+protection  <%= @protection %>
+<% end -%>
 <% if @timeout -%>timeout <%= @timeout %><% end %>
