@@ -99,6 +99,7 @@ define stingray::virtual_server(
     $port = 80,
     $protocol = 'http',
     $pool = 'discard',
+    $protection = undef,
     $enabled = 'no',
     $ssl_decrypt = 'no',
     $ssl_certificate = undef,
