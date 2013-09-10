@@ -90,6 +90,18 @@
 # The session persistence type to use.  The default is 'Transparent Session Affinity', which is
 # also known as cookie based persistence.
 #
+# [*caching*]
+# If set to 'yes' the Stingray Traffic Manager will attempt to cache web
+# server responses. The default is 'yes'.
+#
+# [*compression*]
+# If set to 'yes' the Stingray Traffic Manager will attempt to compress
+# content it returns to the browser. The default is 'yes'.
+#
+# [*compression_level*]
+# If compression is enabled, the compression level (1-9, 1=low, 9=high).
+# The default is '9'.
+#
 # [*enabled*]
 # Enable this web application to begin handling traffic?  The default is 'yes'.
 #
@@ -103,7 +115,7 @@
 #  stingray::web_app { 'My Other Web Application':
 #        nodes            => ['192.168.22.121:80', '192.168.22.122:80'],
 #        trafficips       => '192.168.1.1',
-#        ssl_decrypt      => 'yes'
+#        ssl_decrypt      => 'yes',
 #        certificate_file => 'puppet:///modules/stingray/cert.public',
 #        private_key_file => 'puppet:///modules/stingray/cert.private'
 #  }
@@ -133,6 +145,9 @@ define stingray::web_app(
     $status_regex = undef,
     $body_regex = '.*',
     $persistence_type = 'Transparent Session Affinity',
+    $compression = 'yes',
+    $compression_level = '9',
+    $caching = 'yes',
     $enabled = 'yes',
 ) {
     include stingray
@@ -150,19 +165,9 @@ define stingray::web_app(
         status_regex => $status_regex,
     }
 
-    if ($machines == '') {
-        if ($::fqdn) {
-            $tip_machines = $::fqdn
-        } else {
-            $tip_machines = $::hostname
-        }
-    } else {
-        $tip_machines = $machines
-    }
-
     stingray::trafficipgroup { "${name} tip":
         ipaddresses => $trafficips,
-        machines    => $tip_machines,
+        machines    => $machines,
         enabled     => $enabled
     }
 
@@ -175,11 +180,14 @@ define stingray::web_app(
     }
 
     stingray::virtual_server { "${name} virtual server":
-        address  => "!${name} tip",
-        protocol => 'HTTP',
-        port     => $port,
-        pool     => "${name} pool",
-        enabled  => $enabled
+        address           => "!${name} tip",
+        protocol          => 'HTTP',
+        port              => $port,
+        pool              => "${name} pool",
+        caching           => $caching,
+        compression       => $compression,
+        compression_level => $compression_level,
+        enabled           => $enabled
     }
 
     if ($ssl_decrypt == 'yes') {

@@ -17,7 +17,7 @@
 #
 # [*machines*]
 # A list of the Stingray Traffic Managers to associate with this traffic
-# ip group
+# ip group. The default is this node.
 #
 # [*passive*]
 # Of the Stingray Traffic Managers associate with this traffic ip group,
@@ -54,7 +54,7 @@
 define stingray::trafficipgroup(
     $ipaddresses = undef,
     $enabled = 'no',
-    $machines = undef,
+    $machines = '',
     $passive = '',
     $keeptogether = 'no'
 
@@ -62,6 +62,16 @@ define stingray::trafficipgroup(
     include stingray
 
     $path = $stingray::install_dir
+
+    if ($machines == '') {
+        if ($::fqdn) {
+            $tip_machines = $::fqdn
+        } else {
+            $tip_machines = $::hostname
+        }
+    } else {
+        $tip_machines = $machines
+    }
 
     file { "${path}/zxtm/conf/flipper/${name}":
         content => template ('stingray/trafficipgroup.erb'),

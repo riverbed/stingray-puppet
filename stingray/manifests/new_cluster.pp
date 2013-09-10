@@ -43,15 +43,11 @@ define stingray::new_cluster (
     $path = $stingray::install_dir
     $accept_license = $stingray::accept_license
 
-    file { $path:
-        ensure => directory,
-        alias  => 'new_stingray_cluster_installed',
-    }
-
     if ($license_key != '') {
         file { "${path}/license.txt":
             source  => $license_key,
             before  => [ File['new_stingray_cluster_replay'], ],
+            require => [ Exec['install_stingray'], ],
             alias   => 'new_stingray_cluster_license',
         }
         $local_license_key = "${path}/license.txt"
@@ -59,7 +55,7 @@ define stingray::new_cluster (
 
     file { "${path}/new_cluster_replay":
         content => template ('stingray/new_cluster.erb'),
-        require => [ File['new_stingray_cluster_installed'], ],
+        require => [ Exec['install_stingray'], ],
         alias   => 'new_stingray_cluster_replay',
     }
 

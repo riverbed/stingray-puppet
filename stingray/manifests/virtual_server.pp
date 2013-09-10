@@ -47,6 +47,10 @@
 # pool is 'discard' which drops all traffic.  See pool.pp for more information
 # on pools.
 #
+# [*protection*]
+# The service protection class to use.  Service protection is similar to an ACL
+# that defines IP address that are banned and allowed.
+#
 # [*enabled*]
 # Enable this virtual server to begin handling traffic?  The default is 'no'.
 #
@@ -61,12 +65,31 @@
 # certificates for use with the Stingray Traffic Manager.
 #
 # [*request_rules*]
-# If a request rule is needed, the name of the rule to use. See rule.pp for creating
-# a rule.
+# If a request rule is needed, the name of the rule to use. See rule.pp for
+# creating # a rule.
 #
 # [*response_rules*]
-# If a response rule is needed, the name of the rule to use. See rule.pp for creating
-# a rule.
+# If a response rule is needed, the name of the rule to use. See rule.pp for
+# creating a rule.
+#
+# [*enable_logging*]
+# Should this virtual server log all requests? The default is 'no'.
+#
+# [*log_filename*]
+# If enable_logging is set to 'yes', the name of the file in which to store
+# the request logs.
+#
+# [*caching*]
+# If set to 'yes' the Stingray Traffic Manager will attempt to cache web
+# server responses. The default is 'no'.
+#
+# [*compression*]
+# If set to 'yes' the Stingray Traffic Manager will attempt to compress
+# content it returns to the browser. The default is 'no'.
+#
+# [*compression_level*]
+# If compression is enabled, the compression level (1-9, 1=low, 9=high).
+# The default is '1'.
 #
 # === Examples
 #
@@ -95,17 +118,21 @@
 # Copyright 2013 Riverbed Technology
 #
 define stingray::virtual_server(
-    $address            = '*',
-    $port               = 80,
-    $protocol           = 'http',
-    $pool               = 'discard',
-    $enabled            = 'no',
-    $ssl_decrypt        = 'no',
-    $ssl_certificate    = undef,
-    $request_rules      = undef,
-    $response_rules     = undef
-    $enable_logging     = false,
-    $log_filename       = '%zeushome%/zxtm/log/%v.log'
+    $address             = '*',
+    $port                = 80,
+    $protocol            = 'http',
+    $pool                = 'discard',
+    $protection          = undef,
+    $enabled             = 'no',
+    $ssl_decrypt         = 'no',
+    $ssl_certificate     = undef,
+    $request_rules       = undef,
+    $response_rules      = undef,
+    $enable_logging      = false,
+    $log_filename        = '%zeushome%/zxtm/log/%v.log',
+    $caching             = 'no',
+    $compression         = 'no',
+    $compression_level   = undef
 
 ) {
     include stingray

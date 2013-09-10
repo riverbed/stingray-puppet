@@ -6,7 +6,7 @@ This module installs Riverbed Stingray Traffic Manager and manages virtual serve
 
 ## Installation
 
-The modules can be installed via puppet module tool (require [version 2.7.14+](http://docs.puppetlabs.com/puppet/2.7/reference/modules_installing.html)):
+The modules can be installed via puppet module tool (requires [version 2.7.14+](http://docs.puppetlabs.com/puppet/2.7/reference/modules_installing.html)):
 
     puppet module install riverbed/stingray
 
@@ -88,6 +88,14 @@ Session persistence classes can be used to direct all requests in a client sessi
 
     stingray::persistence { 'My Persistence':
         type => 'Transparent Session Affinity'
+    }
+
+### protection
+Creates a Stingray Traffic manager protection class. This is like an ACL and can be applied to a Virtual Server.
+
+    stingray::protection { 'My Protection Class':
+        allowed => ['10.0.0.0/16', '192.168.1.2'],
+        banned  => ['127.0.0.1'],
     }
 
 ### ssl_certificate
