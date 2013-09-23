@@ -51,19 +51,39 @@ class stingray (
     }
 
     Exec { path => '/usr/bin:/bin:/usr/sbin:/sbin' }
+    $stm_arch = $stingray::params::stm_arch
 
     #
     # This block of code will format the URL to download the Stingray
     # installer based on $version.
     #
-    $image_loc = "https://support.riverbed.com/download.htm?filename=public/software/stingray/trafficmanager/${version}"
+    if $stm_arch == 'x86' {
+        case $version {
+            '9.1':   {$image_loc = 'https://support.riverbed.com/download.htm?sid=3qlkgtaiptpaqf52mj9tkuafap'}
+            '9.1r2': {$image_loc = 'https://support.riverbed.com/download.htm?sid=m2jvm5n98f9v669poctejv597a'}
+            '9.2':   {$image_loc = 'https://support.riverbed.com/download.htm?sid=c3p4mfun7mplgnnj3lto889e2s'}
+            '9.3':   {$image_loc = 'https://support.riverbed.com/download.htm?sid=jvrmms6hm502u6jv11ij9vk92s'}
+            '9.3r1': {$image_loc = 'https://support.riverbed.com/download.htm?sid=9esd1sqo1eqr4vsde24jr3eeut'}
+            default: { fail("Version ${version} is not supported.  Supported versions are 9.1 till 9.3r1") }
+        }
+    } else {
+        case $version {
+            '9.1':   {$image_loc = 'https://support.riverbed.com/download.htm?sid=c26o2rd0sn2d46m9nlkb8lc2u4'}
+            '9.1r2': {$image_loc = 'https://support.riverbed.com/download.htm?sid=mg1k8t5ib0t1ejh9f62jbp2li6'}
+            '9.2':   {$image_loc = 'https://support.riverbed.com/download.htm?sid=1d4quq8su3kuhaoor93mlb104d'}
+            '9.3':   {$image_loc = 'https://support.riverbed.com/download.htm?sid=qbr1k45ualc3gijn0qavnjaei7'}
+            '9.3r1': {$image_loc = 'https://support.riverbed.com/download.htm?sid=t01dd49gtrl85lqus3q7md6qkl'}
+            default: { fail("Version ${version} is not supported.  Supported versions are 9.1 till 9.3r1") }
+        }
+    }
+    #$image_loc = "https://support.riverbed.com/download.htm?filename=public/software/stingray/trafficmanager/${version}"
     $temp_ver = regsubst($version, '(.*)\.(.*)', '\1\2')
     $image_name = "ZeusTM_${temp_ver}_Linux-${stingray::params::stm_arch}"
 
     #
     # Download from Riverbed Support site and place in $tmp_dir
     #
-    exec { "wget ${image_loc}/${image_name}.tgz -O ${tmp_dir}/${image_name}.tgz":
+    exec { "wget ${image_loc} -O ${tmp_dir}/${image_name}.tgz":
         creates => "${tmp_dir}/${image_name}.tgz",
         require => [Package[wget], ],
         alias   => 'wget_stingray',
