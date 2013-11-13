@@ -48,7 +48,12 @@
 #
 # [*machines*]
 # A list of the Stingray Traffic Managers to associate with the trafficips.
-# The default is this node.
+#
+# Valid values are:
+#    '*'  all Stingray Traffic Managers in the cluster.
+#    A list of Stingray Traffic Managers to associate with this Traffic IP Group
+#
+# The default is .*., all Stingray Traffic Managers in the cluster.
 #
 # [*port*]
 # The port this web application uses.  This must be a numerical
@@ -102,6 +107,10 @@
 # If compression is enabled, the compression level (1-9, 1=low, 9=high).
 # The default is '9'.
 #
+# [*banned_ips*]
+# A list of banned IPs.  The entries can be of the form
+# '10.0.1.0/255.255.255.0', '10.0.1.0/24', '10.0.1.' or '10.0.1.1'.
+#
 # [*enabled*]
 # Enable this web application to begin handling traffic?  The default is 'yes'.
 #
@@ -135,7 +144,7 @@ define stingray::web_app(
     $disabled = '',
     $draining = '',
     $algorithm = 'Least Connections',
-    $machines ='',
+    $machines ='*',
     $port = '80',
     $ssl_decrypt = 'no',
     $ssl_port = '443',
@@ -149,6 +158,7 @@ define stingray::web_app(
     $compression_level = '9',
     $caching = 'yes',
     $enabled = 'yes',
+    $banned_ips = '',
 ) {
     include stingray
 
@@ -163,6 +173,15 @@ define stingray::web_app(
         path         => $monitor_path,
         body_regex   => $body_regex,
         status_regex => $status_regex,
+    }
+
+    if ($banned_ips != '') {
+        $protection = "${name} protection"
+        stingray::protection { $protection:
+            banned => $banned_ips
+        }
+    } else {
+        $protection = undef
     }
 
     stingray::trafficipgroup { "${name} tip":
@@ -187,6 +206,7 @@ define stingray::web_app(
         caching           => $caching,
         compression       => $compression,
         compression_level => $compression_level,
+        protection        => $protection,
         enabled           => $enabled
     }
 

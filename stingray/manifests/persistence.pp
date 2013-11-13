@@ -79,5 +79,7 @@ define stingray::persistence(
 
     file { "${path}/zxtm/conf/persistence/${name}":
         content => template ('stingray/persistence.erb'),
+        require => [ Exec['new_stingray_cluster'], ],
+        notify  => Exec['replicate_config']
     }
 }

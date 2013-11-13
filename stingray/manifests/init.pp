@@ -122,6 +122,14 @@ class stingray (
     }
 
     #
+    # Set up a process to replicate config to other Stingray
+    # Traffic Managers in the cluster when necessary
+    #
+    stingray::replicate_config{'replicate_config':
+        require => Exec['install_stingray']
+    }
+
+    #
     # The next step is either create a new_cluster or join_cluster
     #
 }

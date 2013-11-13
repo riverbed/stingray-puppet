@@ -28,6 +28,9 @@ rules <%= @request_rules.class == Array ? "\"" + (@request_rules * "\" \"") + "\
 <% if @protection then -%>
 protection  <%= @protection %>
 <% end -%>
+<% if @bandwidth then -%>
+bandwidth_class  <%= @bandwidth %>
+<% end -%>
 <% if @timeout -%>timeout <%= @timeout %><% end %>
 webcache!enabled   <%= @caching %>
 gzip!enabled   <%= @compression %>

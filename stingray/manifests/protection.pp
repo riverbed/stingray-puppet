@@ -40,5 +40,7 @@ define stingray::protection (
         group   => root,
         mode    => '0600',
         content => template('stingray/protection.erb'),
+        require => [ Exec['new_stingray_cluster'], ],
+        notify  => Exec['replicate_config']
     }
 }

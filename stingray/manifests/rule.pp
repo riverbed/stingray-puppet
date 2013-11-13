@@ -36,5 +36,6 @@ define stingray::rule(
     file { "${path}/zxtm/conf/rules/${name}":
         ensure => 'present',
         source => $file
+        notify => Exec['replicate_config']
     }
 }

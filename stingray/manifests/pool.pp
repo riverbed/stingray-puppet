@@ -58,6 +58,12 @@
 # ensures that all requests from a client will always get sent to the same
 # node. The default is to not use Session Persistence.
 #
+# [*bandwidth*]
+# The bandwidth management class to use. Bandwidth classes are used to
+# limit the network resources that a set of connections can consume.
+# When applied to a pool, they limit the bandwidth sending data to
+# that pool.
+#
 # [*maxconns*]
 # The maximum number of concurrent connections allowed to each back-end
 # node in this pool per machine. A value of 0 means unlimited connections.
@@ -86,13 +92,14 @@
 #
 define stingray::pool(
     $nodes,
-    $weightings = undef,
-    $monitors = 'Ping',
-    $disabled = '',
-    $draining = '',
-    $algorithm = 'Round Robin',
+    $weightings  = undef,
+    $monitors    = 'Ping',
+    $disabled    = '',
+    $draining    = '',
+    $algorithm   = 'Round Robin',
     $persistence = undef,
-    $maxconns = undef
+    $bandwidth   = undef,
+    $maxconns    = undef
 
 ) {
     include stingray
@@ -114,5 +121,7 @@ define stingray::pool(
     info ("Configuring pool ${name}")
     file { "${path}/zxtm/conf/pools/${name}":
         content => template ('stingray/pool.erb'),
+        require => [ Exec['new_stingray_cluster'], ],
+        notify  => Exec['replicate_config']
     }
 }

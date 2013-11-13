@@ -43,15 +43,6 @@ define stingray::new_cluster (
     $path = $stingray::install_dir
     $accept_license = $stingray::accept_license
 
-    if ($license_key != '') {
-        file { "${path}/license.txt":
-            source  => $license_key,
-            before  => [ File['new_stingray_cluster_replay'], ],
-            require => [ Exec['install_stingray'], ],
-            alias   => 'new_stingray_cluster_license',
-        }
-        $local_license_key = "${path}/license.txt"
-    }
 
     file { "${path}/new_cluster_replay":
         content => template ('stingray/new_cluster.erb'),
@@ -80,5 +71,29 @@ define stingray::new_cluster (
             line    => 'developer_mode_accepted yes',
             require => [ Exec['new_stingray_cluster'], ],
         }
+
+        file { "${path}/zxtm/conf/licensekeys/license.txt":
+            ensure  => absent,
+            notify  => Exec['replicate_config'],
+            require => [ Exec['new_stingray_cluster'], ],
+        }
+    } else {
+        file { "${path}/zxtm/conf/licensekeys/license.txt":
+            ensure  => present,
+            source  => $license_key,
+            require => [ Exec['new_stingray_cluster'], ],
+            alias   => 'new_stingray_cluster_license',
+            notify  => Exec['replicate_config']
+        }
+    }
+
+    file {"${path}/zxtm/bin/puppet_tip.sh":
+        mode    => '0755',
+        source  => 'puppet:///modules/stingray/puppet_tip.sh',
+        require => [ Exec['new_stingray_cluster'], ]
+    }
+
+    stingray::del_unused_resources{'del_unused_resources':
+        require => [ Exec['new_stingray_cluster'], ]
     }
 }

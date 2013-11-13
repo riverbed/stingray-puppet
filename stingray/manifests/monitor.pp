@@ -222,5 +222,7 @@ define stingray::monitor(
 
     file { "${install_dir}/zxtm/conf/monitors/${name}":
         content => template ('stingray/monitor.erb'),
+        require => [ Exec['new_stingray_cluster'], ],
+        notify  => Exec['replicate_config']
     }
 }

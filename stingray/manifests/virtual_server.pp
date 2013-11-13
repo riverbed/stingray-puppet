@@ -51,6 +51,12 @@
 # The service protection class to use.  Service protection is similar to an ACL
 # that defines IP address that are banned and allowed.
 #
+# [*bandwidth*]
+# The bandwidth management class to use. Bandwidth classes are used to
+# limit the network resources that a set of connections can consume.
+# When applied to a virtual server, they limit the bandwidth sending
+# data to the clients.
+#
 # [*enabled*]
 # Enable this virtual server to begin handling traffic?  The default is 'no'.
 #
@@ -123,6 +129,7 @@ define stingray::virtual_server(
     $protocol            = 'http',
     $pool                = 'discard',
     $protection          = undef,
+    $bandwidth           = undef,
     $enabled             = 'no',
     $ssl_decrypt         = 'no',
     $ssl_certificate     = undef,
@@ -159,5 +166,7 @@ define stingray::virtual_server(
     info ("Configuring virtual server ${name}")
     file { "${path}/zxtm/conf/vservers/${name}":
         content => template ('stingray/virtual_server.erb'),
+        require => [ Exec['new_stingray_cluster'], ],
+        notify  => Exec['replicate_config']
     }
 }

@@ -43,37 +43,44 @@ define stingray::ssl_certificate(
     info ("Configuring SSL certificate ${name}")
     file { "${path}/zxtm/conf/ssl/server_keys/${name}.public":
         ensure => 'present',
-        source => $certificate_file
+        source => $certificate_file,
+        notify => Exec['replicate_config']
     }
 
     file { "${path}/zxtm/conf/ssl/server_keys/${name}.private":
         ensure => 'present',
-        source => $private_key_file
+        source => $private_key_file,
+        notify => Exec['replicate_config']
     }
 
     file { "${path}/zxtm/conf/ssl/server_keys_config":
-        ensure => 'present',
-        alias  => 'server_keys_config'
+        ensure  => 'present',
+        alias   => 'server_keys_config',
+        require => [ Exec['new_stingray_cluster'], ],
+        notify  => Exec['replicate_config']
     }
 
     file_line { 'public key':
         ensure  => present,
         path    => "${path}/zxtm/conf/ssl/server_keys_config",
         line    => "${name}!public  ${path}/zxtm/conf/ssl/server_keys/${name}.public",
-        require => File['server_keys_config']
+        require => File['server_keys_config'],
+        notify  => Exec['replicate_config']
     }
 
     file_line { 'private key':
         ensure  => present,
         path    => "${path}/zxtm/conf/ssl/server_keys_config",
         line    => "${name}!private  ${path}/zxtm/conf/ssl/server_keys/${name}.private",
-        require => File['server_keys_config']
+        require => File['server_keys_config'],
+        notify  => Exec['replicate_config']
     }
 
     file_line { 'managed':
         ensure  => present,
         path    => "${path}/zxtm/conf/ssl/server_keys_config",
         line    => "${name}!managed  yes",
-        require => File['server_keys_config']
+        require => File['server_keys_config'],
+        notify  => Exec['replicate_config']
     }
 }
