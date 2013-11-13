@@ -98,6 +98,18 @@ Creates a Stingray Traffic manager protection class. This is like an ACL and can
         banned  => ['127.0.0.1'],
     }
 
+### bandwidth
+
+Creates a Stingray Traffic manager bandwidth management class.  Bandwidth
+classes are used to limit the network resources that a set of connections
+can consume.  When applied to a pool, they limit the bandwidth sending
+data to that pool.  When applied to a virtual server, they limit the
+bandwidth sending data to the clients.
+
+    stingray::bandwidth { 'My Bandwidth Class':
+        maximum => '10000',
+    }
+
 ### ssl_certificate
 Stingray can be used to offload SSL processing from your servers.  To use this feature you must import your SSL certificate to the Stingray Traffic Manager.  To import an SSL certificate:
 
