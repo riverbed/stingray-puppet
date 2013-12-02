@@ -32,6 +32,7 @@ protection  <%= @protection %>
 bandwidth_class  <%= @bandwidth %>
 <% end -%>
 <% if @timeout -%>timeout <%= @timeout %><% end %>
+<% if @connect_timeout -%>connect_time  <%= @connect_timeout %><% end %>
 webcache!enabled   <%= @caching %>
 gzip!enabled   <%= @compression %>
 <% if @compression_level then -%>

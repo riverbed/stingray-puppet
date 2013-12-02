@@ -139,7 +139,8 @@ define stingray::virtual_server(
     $log_filename        = '%zeushome%/zxtm/log/%v.log',
     $caching             = 'no',
     $compression         = 'no',
-    $compression_level   = undef
+    $compression_level   = undef,
+    $connect_timeout     = undef,
 
 ) {
     include stingray
