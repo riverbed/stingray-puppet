@@ -97,6 +97,24 @@
 # If compression is enabled, the compression level (1-9, 1=low, 9=high).
 # The default is '1'.
 #
+# [*timeout*]
+# A connection should be closed if no additional data has been received
+# for this period of time. A value of 0 (zero) will disable this timeout.
+# Note that the default value may vary depending on the protocol selected. 
+#
+# [*connect_timeout*]
+# The time, in seconds, to wait for data from a new connection. If no data
+# is received within this time, the connection will be closed. A value
+# of 0 (zero) will disable the timeout. 
+# The default is '10'.
+#
+# [*aptimizer_express*]
+# Aptimizer Express is an add-on module for Stingray Traffic Manager that
+# provides a set of robust optimizations to accelerate the delivery of
+# most web pages, no configuration or tuning is required. This advanced 
+# capability with Stingray Aptimizer Express is available as a licensed
+# add-on module for Stingray Traffic Manager 9.5 and later.
+#
 # === Examples
 #
 #  stingray::virtual_server { 'My Virtual Server':
@@ -140,12 +158,15 @@ define stingray::virtual_server(
     $caching             = 'no',
     $compression         = 'no',
     $compression_level   = undef,
-    $timeout             = undef
+    $timeout             = undef,
+    $connect_timeout     = undef,
+    $aptimizer_express   = 'no'
 
 ) {
     include stingray
 
     $path = $stingray::install_dir
+    $version = $stingray::version
 
     # Convert the Protocol to a code that Stingray understands
     case downcase($protocol) {
@@ -162,6 +183,13 @@ define stingray::virtual_server(
         'generic client first': {$proto_code = 'client_first'}
         'generic streaming':    {$proto_code = 'stream'}
         default:                {$proto_code = downcase($protocol)}
+    }
+
+    if $version < '9.5' {
+        warning ("Aptimizer Express requires Stingray Traffic Manager version 9.5 or later, you are running version $version")
+        $aptimizer_express_code = 'no'
+    } else {
+        $aptimizer_express_code = $aptimizer_express 
     }
 
     info ("Configuring virtual server ${name}")

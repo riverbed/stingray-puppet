@@ -111,6 +111,13 @@
 # A list of banned IPs.  The entries can be of the form
 # '10.0.1.0/255.255.255.0', '10.0.1.0/24', '10.0.1.' or '10.0.1.1'.
 #
+# [*aptimizer_express*]
+# Aptimizer Express is an add-on module for Stingray Traffic Manager that
+# provides a set of robust optimizations to accelerate the delivery of
+# most web pages, no configuration or tuning is required. This advanced 
+# capability with Stingray Aptimizer Express is available as a licensed
+# add-on module for Stingray Traffic Manager 9.5 and later.
+#
 # [*enabled*]
 # Enable this web application to begin handling traffic?  The default is 'yes'.
 #
@@ -159,6 +166,7 @@ define stingray::web_app(
     $caching = 'yes',
     $enabled = 'yes',
     $banned_ips = '',
+    $aptimizer_express = 'no',
 ) {
     include stingray
 
@@ -207,17 +215,23 @@ define stingray::web_app(
         compression       => $compression,
         compression_level => $compression_level,
         protection        => $protection,
-        enabled           => $enabled
+        enabled           => $enabled,
+        aptimizer_express => $aptimizer_express
     }
 
     if ($ssl_decrypt == 'yes') {
         stingray::virtual_server { "${name} ssl virtual server":
-            address     => "!${name} tip",
-            protocol    => 'HTTP',
-            port        => $ssl_port,
-            pool        => "${name} pool",
-            ssl_decrypt => 'yes',
-            enabled     => $enabled
+            address           => "!${name} tip",
+            protocol          => 'HTTP',
+            port              => $ssl_port,
+            pool              => "${name} pool",
+            caching           => $caching,
+            compression       => $compression,
+            compression_level => $compression_level,
+            protection        => $protection,
+            ssl_decrypt       => 'yes',
+            enabled           => $enabled,
+            aptimizer_express => $aptimizer_express
         }
 
         stingray::ssl_certificate { "${name} SSL Certificate":
