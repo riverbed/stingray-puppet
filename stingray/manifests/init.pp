@@ -46,8 +46,10 @@ class stingray (
 
 ) inherits stingray::params {
 
-    package {
-        'wget':;
+    if !defined(Package['wget']) {
+		    package {
+		        'wget':;
+		    }  
     }
 
     Exec { path => '/usr/bin:/bin:/usr/sbin:/sbin' }
