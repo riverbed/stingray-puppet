@@ -35,7 +35,7 @@ define stingray::rule(
     info ("Import rule ${name}")
     file { "${path}/zxtm/conf/rules/${name}":
         ensure => 'present',
-        source => $file
+        source => $file,
         notify => Exec['replicate_config']
     }
 }
