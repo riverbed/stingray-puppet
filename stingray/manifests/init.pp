@@ -42,7 +42,8 @@ class stingray (
     $tmp_dir = $stingray::params::tmp_dir,
     $install_dir = $stingray::params::install_dir,
     $version = $stingray::params::version,
-    $accept_license = $stingray::params::accept_license
+    $accept_license = $stingray::params::accept_license,
+    $installation_source = undef
 
 ) inherits stingray::params {
 
@@ -59,28 +60,32 @@ class stingray (
     # This block of code will format the URL to download the Stingray
     # installer based on $version.
     #
-    if $stm_arch == 'x86' {
-        case $version {
-            '9.1':   {$image_loc = 'https://support.riverbed.com/download.htm?sid=3qlkgtaiptpaqf52mj9tkuafap'}
-            '9.1r2': {$image_loc = 'https://support.riverbed.com/download.htm?sid=m2jvm5n98f9v669poctejv597a'}
-            '9.2':   {$image_loc = 'https://support.riverbed.com/download.htm?sid=c3p4mfun7mplgnnj3lto889e2s'}
-            '9.3':   {$image_loc = 'https://support.riverbed.com/download.htm?sid=jvrmms6hm502u6jv11ij9vk92s'}
-            '9.3r1': {$image_loc = 'https://support.riverbed.com/download.htm?sid=9esd1sqo1eqr4vsde24jr3eeut'}
-            '9.4':   {$image_loc = 'https://support.riverbed.com/download.htm?sid=seinh554d2ku21084es3l0ssgr'}
-            '9.5':   {$image_loc = 'https://support.riverbed.com/download.htm?sid=apehpa9084mt0q3o00q13ef07o'}
-            default: { fail("Version ${version} is not supported.  Supported versions are 9.1 till 9.4") }
-        }
+    if $installation_source {
+        $image_loc = $installation_source
     } else {
-        case $version {
-            '9.1':   {$image_loc = 'https://support.riverbed.com/download.htm?sid=c26o2rd0sn2d46m9nlkb8lc2u4'}
-            '9.1r2': {$image_loc = 'https://support.riverbed.com/download.htm?sid=mg1k8t5ib0t1ejh9f62jbp2li6'}
-            '9.2':   {$image_loc = 'https://support.riverbed.com/download.htm?sid=1d4quq8su3kuhaoor93mlb104d'}
-            '9.3':   {$image_loc = 'https://support.riverbed.com/download.htm?sid=qbr1k45ualc3gijn0qavnjaei7'}
-            '9.3r1': {$image_loc = 'https://support.riverbed.com/download.htm?sid=t01dd49gtrl85lqus3q7md6qkl'}
-            '9.4':   {$image_loc = 'https://support.riverbed.com/download.htm?sid=biuhlvmnlt3jna7kq8ab2u69jk'}
-            '9.5':   {$image_loc = 'https://support.riverbed.com/download.htm?sid=faudva1r9hrbcie5a6b509aoti'}
-            default: { fail("Version ${version} is not supported.  Supported versions are 9.1 till 9.4") }
-        }
+      if $stm_arch == 'x86' {
+          case $version {
+              '9.1':   {$image_loc = 'https://support.riverbed.com/download.htm?sid=3qlkgtaiptpaqf52mj9tkuafap'}
+              '9.1r2': {$image_loc = 'https://support.riverbed.com/download.htm?sid=m2jvm5n98f9v669poctejv597a'}
+              '9.2':   {$image_loc = 'https://support.riverbed.com/download.htm?sid=c3p4mfun7mplgnnj3lto889e2s'}
+              '9.3':   {$image_loc = 'https://support.riverbed.com/download.htm?sid=jvrmms6hm502u6jv11ij9vk92s'}
+              '9.3r1': {$image_loc = 'https://support.riverbed.com/download.htm?sid=9esd1sqo1eqr4vsde24jr3eeut'}
+              '9.4':   {$image_loc = 'https://support.riverbed.com/download.htm?sid=seinh554d2ku21084es3l0ssgr'}
+              '9.5':   {$image_loc = 'https://support.riverbed.com/download.htm?sid=apehpa9084mt0q3o00q13ef07o'}
+              default: { fail("Version ${version} is not supported.  Supported versions are 9.1 till 9.4") }
+          }
+      } else {
+          case $version {
+              '9.1':   {$image_loc = 'https://support.riverbed.com/download.htm?sid=c26o2rd0sn2d46m9nlkb8lc2u4'}
+              '9.1r2': {$image_loc = 'https://support.riverbed.com/download.htm?sid=mg1k8t5ib0t1ejh9f62jbp2li6'}
+              '9.2':   {$image_loc = 'https://support.riverbed.com/download.htm?sid=1d4quq8su3kuhaoor93mlb104d'}
+              '9.3':   {$image_loc = 'https://support.riverbed.com/download.htm?sid=qbr1k45ualc3gijn0qavnjaei7'}
+              '9.3r1': {$image_loc = 'https://support.riverbed.com/download.htm?sid=t01dd49gtrl85lqus3q7md6qkl'}
+              '9.4':   {$image_loc = 'https://support.riverbed.com/download.htm?sid=biuhlvmnlt3jna7kq8ab2u69jk'}
+              '9.5':   {$image_loc = 'https://support.riverbed.com/download.htm?sid=faudva1r9hrbcie5a6b509aoti'}
+              default: { fail("Version ${version} is not supported.  Supported versions are 9.1 till 9.4") }
+          }
+      }
     }
     #$image_loc = "https://support.riverbed.com/download.htm?filename=public/software/stingray/trafficmanager/${version}"
     $temp_ver = regsubst($version, '(.*)\.(.*)', '\1\2')
