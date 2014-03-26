@@ -77,7 +77,7 @@ class stingray (
               '9.3r1': {$image_loc = 'https://support.riverbed.com/download.htm?sid=9esd1sqo1eqr4vsde24jr3eeut'}
               '9.4':   {$image_loc = 'https://support.riverbed.com/download.htm?sid=seinh554d2ku21084es3l0ssgr'}
               '9.5':   {$image_loc = 'https://support.riverbed.com/download.htm?sid=apehpa9084mt0q3o00q13ef07o'}
-              default: { fail("Version ${version} is not supported.  Supported versions are 9.1 till 9.4") }
+              default: { fail("Version ${version} is not supported.  Supported versions are 9.1 till 9.5") }
           }
       } else {
           case $version {
@@ -88,7 +88,8 @@ class stingray (
               '9.3r1': {$image_loc = 'https://support.riverbed.com/download.htm?sid=t01dd49gtrl85lqus3q7md6qkl'}
               '9.4':   {$image_loc = 'https://support.riverbed.com/download.htm?sid=biuhlvmnlt3jna7kq8ab2u69jk'}
               '9.5':   {$image_loc = 'https://support.riverbed.com/download.htm?sid=faudva1r9hrbcie5a6b509aoti'}
-              default: { fail("Version ${version} is not supported.  Supported versions are 9.1 till 9.4") }
+              '9.6':   {$image_loc = 'https://support.riverbed.com/download.htm?sid=vdg19dt684868npc3fggd750pn'}
+              default: { fail("Version ${version} is not supported.  Supported versions are 9.1 till 9.6") }
           }
       }
     }
