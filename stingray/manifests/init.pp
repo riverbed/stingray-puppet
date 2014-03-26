@@ -24,6 +24,11 @@
 #
 # Set this to 'accept' once you have read the license.
 #
+# [*installation_source*]
+# If you host your own copy of the STM image on a web server, you can specify
+# a custom URL to install from. This will override anything specified in the
+# "version" parameter.
+#
 # === Examples
 #
 #  class { 'stingray':
