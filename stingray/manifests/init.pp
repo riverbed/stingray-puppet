@@ -136,6 +136,17 @@ class stingray (
         alias   => 'install_stingray',
     }
 
+    # Manage users and groups
+    concat { "${install_dir}/zxtm/conf/users":
+        require => Exec['install_stingray'],
+        notify  => Exec['replicate_config']
+    }
+
+    local_user { 'admin':
+        password => $admin_password,
+        clear_pw => 'yes'
+    }
+
     #
     # Set up a process to replicate config to other Stingray
     # Traffic Managers in the cluster when necessary

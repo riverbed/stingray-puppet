@@ -91,6 +91,13 @@ define stingray::del_unused_resources() {
         notify  => Exec['replicate_config']
     }
 
+    file { "${path}/zxtm/conf/groups/":
+        ensure  => 'directory',
+        recurse => true,
+        purge   => true,
+        notify  => Exec['replicate_config']
+    }
+
     #
     # There are some built in monitors that need to be preserved
     #
@@ -155,6 +162,22 @@ define stingray::del_unused_resources() {
     }
 
     file { "${path}/zxtm/conf/monitors/Connect":
+        ensure  => 'present',
+    }
+
+    #
+    # There are some built in groups that need to be preserved
+    #
+    file { "${path}/zxtm/conf/groups/admin":
+        ensure  => 'present',
+    }
+    file { "${path}/zxtm/conf/groups/Demo":
+        ensure  => 'present',
+    }
+    file { "${path}/zxtm/conf/groups/Guest":
+        ensure  => 'present',
+    }
+    file { "${path}/zxtm/conf/groups/Monitoring":
         ensure  => 'present',
     }
 }
