@@ -89,7 +89,8 @@ class stingray (
               '9.4':   {$image_loc = 'https://support.riverbed.com/download.htm?sid=biuhlvmnlt3jna7kq8ab2u69jk'}
               '9.5':   {$image_loc = 'https://support.riverbed.com/download.htm?sid=faudva1r9hrbcie5a6b509aoti'}
               '9.6':   {$image_loc = 'https://support.riverbed.com/download.htm?sid=vdg19dt684868npc3fggd750pn'}
-              default: { fail("Version ${version} is not supported.  Supported versions are 9.1 till 9.6") }
+              '9.6r1': {$image_loc = 'https://support.riverbed.com/bin/support/download?sid=9c3387134vofrjui9e6osj1h1g'}
+              default: { fail("Version ${version} is not supported.  Supported versions are 9.1 till 9.6r1") }
           }
       }
     }

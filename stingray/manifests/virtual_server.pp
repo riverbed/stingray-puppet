@@ -185,7 +185,7 @@ define stingray::virtual_server(
         default:                {$proto_code = downcase($protocol)}
     }
 
-    if $version < '9.5' {
+    if $version =~ /9\.[1-4](r[1-9]|$)/ {
         warning ("Aptimizer Express requires Stingray Traffic Manager version 9.5 or later, you are running version $version")
         $aptimizer_express_code = 'no'
     } else {
