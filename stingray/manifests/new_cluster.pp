@@ -93,6 +93,25 @@ define stingray::new_cluster (
         require => [ Exec['new_stingray_cluster'], ]
     }
 
+    # Manage users and groups
+    concat { "${path}/zxtm/conf/users":
+        require => Exec['new_stingray_cluster'],
+        notify  => Exec['replicate_config']
+    }
+
+    local_user { 'admin':
+        password => $admin_password,
+        clear_pw => 'yes',
+        require  => [ Exec['new_stingray_cluster'], ]
+    }
+
+    file { "${path}/zxtm/conf/ssl/server_keys_config":
+        ensure  => 'present',
+        alias   => 'server_keys_config',
+        require => [ Exec['new_stingray_cluster'], ],
+    }
+
+
     stingray::del_unused_resources{'del_unused_resources':
         require => [ Exec['new_stingray_cluster'], ]
     }

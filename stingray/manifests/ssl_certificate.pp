@@ -53,14 +53,14 @@ define stingray::ssl_certificate(
         notify => Exec['replicate_config']
     }
 
-    file { "${path}/zxtm/conf/ssl/server_keys_config":
-        ensure  => 'present',
-        alias   => 'server_keys_config',
-        require => [ Exec['new_stingray_cluster'], ],
-        notify  => Exec['replicate_config']
-    }
+#    file { "${path}/zxtm/conf/ssl/server_keys_config":
+#        ensure  => 'present',
+#        alias   => 'server_keys_config',
+#        require => [ Exec['new_stingray_cluster'], ],
+#        notify  => Exec['replicate_config']
+#    }
 
-    file_line { 'public key':
+    file_line { "public key.${name}":
         ensure  => present,
         path    => "${path}/zxtm/conf/ssl/server_keys_config",
         line    => "${name}!public  ${path}/zxtm/conf/ssl/server_keys/${name}.public",
@@ -68,7 +68,7 @@ define stingray::ssl_certificate(
         notify  => Exec['replicate_config']
     }
 
-    file_line { 'private key':
+    file_line { "private key.${name}":
         ensure  => present,
         path    => "${path}/zxtm/conf/ssl/server_keys_config",
         line    => "${name}!private  ${path}/zxtm/conf/ssl/server_keys/${name}.private",
@@ -76,7 +76,7 @@ define stingray::ssl_certificate(
         notify  => Exec['replicate_config']
     }
 
-    file_line { 'managed':
+    file_line { "managed.${name}":
         ensure  => present,
         path    => "${path}/zxtm/conf/ssl/server_keys_config",
         line    => "${name}!managed  yes",
