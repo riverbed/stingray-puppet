@@ -35,28 +35,28 @@
 # Copyright 2013 Riverbed Technology
 #
 define stingray::join_cluster (
-    $join_cluster_host,
-    $join_cluster_port = '9090',
-    $admin_username = $stingray::params::admin_username,
-    $admin_password = $stingray::params::admin_password,
+  $join_cluster_host,
+  $join_cluster_port = '9090',
+  $admin_username = $stingray::params::admin_username,
+  $admin_password = $stingray::params::admin_password,
 ) {
-    include stingray
-    include stingray::params
+  include stingray
+  include stingray::params
 
-    $path = $stingray::install_dir
-    $accept_license = $stingray::accept_license
+  $path = $stingray::install_dir
+  $accept_license = $stingray::accept_license
 
-    file { "${path}/join_cluster_replay":
-        content => template ('stingray/join_cluster.erb'),
-        require => [ Exec['install_stingray'], ],
-        alias   => 'join_stingray_cluster_replay',
-    }
+  file { "${path}/join_cluster_replay":
+    content => template ('stingray/join_cluster.erb'),
+    require => [ Exec['install_stingray'], ],
+    alias   => 'join_stingray_cluster_replay',
+  }
 
-    exec { "${path}/zxtm/configure --replay-from=join_cluster_replay":
-        cwd     => $path,
-        user    => 'root',
-        require => [ File['join_stingray_cluster_replay'], ],
-        alias   => 'join_stingray_cluster',
-        creates => "${path}/rc.d/S10admin",
-    }
+  exec { "${path}/zxtm/configure --replay-from=join_cluster_replay --noninteractive":
+    cwd     => $path,
+    user    => 'root',
+    require => [ File['join_stingray_cluster_replay'], ],
+    alias   => 'join_stingray_cluster',
+    creates => "${path}/rc.d/S10admin",
+  }
 }

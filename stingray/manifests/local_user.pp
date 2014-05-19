@@ -11,10 +11,10 @@
 #
 # [*group*]
 # Which permission group the user belongs to.  See permission_group.pp
-# for more details on permission groups.  Permission groups define 
+# for more details on permission groups.  Permission groups define
 # access privileges.
 # The default value is 'admin'.
-# 
+#
 # [*password*]
 # The hashed password for this user.  To generate a hashed password:
 # openssl passwd -1
@@ -59,36 +59,36 @@
 # Copyright 2014 Riverbed Technology
 #
 define stingray::local_user(
-    $password,
-    $clear_pw             = 'No',
-    $use_applet           = 'yes',
-    $applet_max_vs        = 5,
-    $trafficscript_editor = 'yes',
-    $group                = 'admin',
-    $status               = 'Active'
+  $password,
+  $clear_pw             = 'No',
+  $use_applet           = 'yes',
+  $applet_max_vs        = 5,
+  $trafficscript_editor = 'yes',
+  $group                = 'admin',
+  $status               = 'Active'
 ) {
-    include stingray
+  include stingray
 
-    $path = $stingray::install_dir
+  $path = $stingray::install_dir
 
-    # Convert the Status to a code that Stingray understands
-    case downcase($status) {
-        'active':      {$status_code = '1'}
-        'suspended':   {$status_code = '2'}
-        default:       {$status_code = '1'}
-    }
+  # Convert the Status to a code that Stingray understands
+  case downcase($status) {
+    'active':      {$status_code = '1'}
+    'suspended':   {$status_code = '2'}
+    default:       {$status_code = '1'}
+  }
 
-    if downcase($clear_pw) == 'no' {
-        $pw_hash = $password
+  if downcase($clear_pw) == 'no' {
+    $pw_hash = $password
     } else {
-        $pw_hash = generate('/bin/sh', '-c', "openssl passwd -1 ${password}")
+      $pw_hash = generate('/bin/sh', '-c', "openssl passwd -1 ${password}")
     }
 
     info ("Configuring user ${name}")
     concat::fragment { "${path}/zxtm/conf/user_${name}":
-        target  => "${path}/zxtm/conf/users",
-        content => template ('stingray/users.erb'),
-        require => [ Exec['new_stingray_cluster'], ],
-        notify  => Exec['replicate_config']
+      target  => "${path}/zxtm/conf/users",
+      content => template ('stingray/users.erb'),
+      require => [ Exec['new_stingray_cluster'], ],
+      notify  => Exec['replicate_config']
     }
 }
