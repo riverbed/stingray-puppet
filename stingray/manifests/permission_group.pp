@@ -21,7 +21,7 @@
 # [*password_expire_time*]
 # Members of this group must renew their passwords after this number
 # of days. To disable password expiry for the group set this to 0 (zero).i
-# Note that this setting applies only to local users. 
+# Note that this setting applies only to local users.
 # The default value is '0'.
 #
 # === Examples
@@ -39,68 +39,68 @@
 # Copyright 2014 Riverbed Technology
 #
 define stingray::permission_group(
-    $application_firewall = 'ro',
-    $alerting             = 'ro',
-    $aptimizer            = 'ro',
-    $audit_log            = 'ro',
-    $authenticators       = 'ro',
-    $backup               = 'ro',
-    $bandwidth            = 'ro',
-    $catalog              = 'ro',
-    $cloud_credentials    = 'ro',
-    $config_summary       = 'ro',
-    $connections          = 'ro',
-    $custom               = 'ro',
-    $diagnose             = 'ro',
-    $draining             = 'ro',
-    $event_log            = 'ro',
-    $extra_files          = 'ro',
-    $glb_services         = 'ro',
-    $global_settings      = 'ro',
-    $help                 = 'ro',
-    $java                 = 'ro',
-    $license_keys         = 'ro',
-    $locations            = 'ro',
-    $log_viewer           = 'ro',
-    $main_index           = 'ro',
-    $map                  = 'ro',
-    $monitoring           = 'ro',
-    $monitors             = 'ro',
-    $persistence          = 'ro',
-    $pools                = 'ro',
-    $rate                 = 'ro',
-    $reboot               = 'ro',
-    $request_logs         = 'ro',
-    $restart              = 'ro',
-    $rules                = 'ro',
-    $slm                  = 'ro',
-    $snmp                 = 'ro',
-    $soap_api             = 'none',
-    $ssl                  = 'ro',
-    $security             = 'ro',
-    $service_protection   = 'ro',
-    $shutdown             = 'ro',
-    $statd                = 'ro',
-    $steelhead            = 'ro',
-    $support              = 'ro',
-    $support_files        = 'ro',
-    $traffic_ip_groups    = 'ro',
-    $traffic_managers     = 'ro',
-    $virtual_servers      = 'ro',
-    $users                = 'ro',
-    $web_cache            = 'ro',
-    $wizard               = 'ro',
-    $timeout              = 30,
-    $password_expire_time = 0
+  $application_firewall = 'ro',
+  $alerting             = 'ro',
+  $aptimizer            = 'ro',
+  $audit_log            = 'ro',
+  $authenticators       = 'ro',
+  $backup               = 'ro',
+  $bandwidth            = 'ro',
+  $catalog              = 'ro',
+  $cloud_credentials    = 'ro',
+  $config_summary       = 'ro',
+  $connections          = 'ro',
+  $custom               = 'ro',
+  $diagnose             = 'ro',
+  $draining             = 'ro',
+  $event_log            = 'ro',
+  $extra_files          = 'ro',
+  $glb_services         = 'ro',
+  $global_settings      = 'ro',
+  $help                 = 'ro',
+  $java                 = 'ro',
+  $license_keys         = 'ro',
+  $locations            = 'ro',
+  $log_viewer           = 'ro',
+  $main_index           = 'ro',
+  $map                  = 'ro',
+  $monitoring           = 'ro',
+  $monitors             = 'ro',
+  $persistence          = 'ro',
+  $pools                = 'ro',
+  $rate                 = 'ro',
+  $reboot               = 'ro',
+  $request_logs         = 'ro',
+  $restart              = 'ro',
+  $rules                = 'ro',
+  $slm                  = 'ro',
+  $snmp                 = 'ro',
+  $soap_api             = 'none',
+  $ssl                  = 'ro',
+  $security             = 'ro',
+  $service_protection   = 'ro',
+  $shutdown             = 'ro',
+  $statd                = 'ro',
+  $steelhead            = 'ro',
+  $support              = 'ro',
+  $support_files        = 'ro',
+  $traffic_ip_groups    = 'ro',
+  $traffic_managers     = 'ro',
+  $virtual_servers      = 'ro',
+  $users                = 'ro',
+  $web_cache            = 'ro',
+  $wizard               = 'ro',
+  $timeout              = 30,
+  $password_expire_time = 0
 ) {
-    include stingray
+  include stingray
 
-    $path = $stingray::install_dir
+  $path = $stingray::install_dir
 
-    info ("Configuring group ${name}")
-    file { "${path}/zxtm/conf/groups/${name}":
-        content => template ('stingray/groups.erb'),
-        require => [ Exec['new_stingray_cluster'], ],
-        notify  => Exec['replicate_config']
-    }
+  info ("Configuring group ${name}")
+  file { "${path}/zxtm/conf/groups/${name}":
+    content => template ('stingray/groups.erb'),
+    require => [ Exec['new_stingray_cluster'], ],
+    notify  => Exec['replicate_config']
+  }
 }

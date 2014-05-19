@@ -114,7 +114,7 @@
 # [*aptimizer_express*]
 # Aptimizer Express is an add-on module for Stingray Traffic Manager that
 # provides a set of robust optimizations to accelerate the delivery of
-# most web pages, no configuration or tuning is required. This advanced 
+# most web pages, no configuration or tuning is required. This advanced
 # capability with Stingray Aptimizer Express is available as a licensed
 # add-on module for Stingray Traffic Manager 9.5 and later.
 #
@@ -145,98 +145,98 @@
 # Copyright 2013 Riverbed Technology
 #
 define stingray::web_app(
-    $nodes,
-    $trafficips,
-    $weightings = undef,
-    $disabled = '',
-    $draining = '',
-    $algorithm = 'Least Connections',
-    $machines ='*',
-    $port = '80',
-    $ssl_decrypt = 'no',
-    $ssl_port = '443',
-    $certificate_file = '',
-    $private_key_file = '',
-    $monitor_path = '/',
-    $status_regex = undef,
-    $body_regex = '.*',
-    $persistence_type = 'Transparent Session Affinity',
-    $compression = 'yes',
-    $compression_level = '9',
-    $caching = 'yes',
-    $enabled = 'yes',
-    $banned_ips = '',
-    $aptimizer_express = 'no',
+  $nodes,
+  $trafficips,
+  $weightings = undef,
+  $disabled = '',
+  $draining = '',
+  $algorithm = 'Least Connections',
+  $machines ='*',
+  $port = '80',
+  $ssl_decrypt = 'no',
+  $ssl_port = '443',
+  $certificate_file = '',
+  $private_key_file = '',
+  $monitor_path = '/',
+  $status_regex = undef,
+  $body_regex = '.*',
+  $persistence_type = 'Transparent Session Affinity',
+  $compression = 'yes',
+  $compression_level = '9',
+  $caching = 'yes',
+  $enabled = 'yes',
+  $banned_ips = '',
+  $aptimizer_express = 'no',
 ) {
-    include stingray
+  include stingray
 
-    $path = $stingray::install_dir
+  $path = $stingray::install_dir
 
-    stingray::persistence { "${name} persist":
-        type => $persistence_type
+  stingray::persistence { "${name} persist":
+    type => $persistence_type
+  }
+
+  stingray::monitor { "${name} monitor":
+    type         => 'HTTP',
+    path         => $monitor_path,
+    body_regex   => $body_regex,
+    status_regex => $status_regex,
+  }
+
+  if ($banned_ips != '') {
+    $protection = "${name} protection"
+    stingray::protection { $protection:
+      banned => $banned_ips
     }
-
-    stingray::monitor { "${name} monitor":
-        type         => 'HTTP',
-        path         => $monitor_path,
-        body_regex   => $body_regex,
-        status_regex => $status_regex,
-    }
-
-    if ($banned_ips != '') {
-        $protection = "${name} protection"
-        stingray::protection { $protection:
-            banned => $banned_ips
-        }
     } else {
-        $protection = undef
+      $protection = undef
     }
 
     stingray::trafficipgroup { "${name} tip":
-        ipaddresses => $trafficips,
-        machines    => $machines,
-        enabled     => $enabled
+      ipaddresses => $trafficips,
+      machines    => $machines,
+      enabled     => $enabled
     }
 
     stingray::pool { "${name} pool":
-        nodes       => $nodes,
-        weightings  => $weightings,
-        algorithm   => $algorithm,
-        persistence => "${name} persist",
-        monitors    => "${name} monitor"
+      nodes       => $nodes,
+      weightings  => $weightings,
+      algorithm   => $algorithm,
+      persistence => "${name} persist",
+      monitors    => "${name} monitor"
     }
 
     stingray::virtual_server { "${name} virtual server":
+      address           => "!${name} tip",
+      protocol          => 'HTTP',
+      port              => $port,
+      pool              => "${name} pool",
+      caching           => $caching,
+      compression       => $compression,
+      compression_level => $compression_level,
+      protection        => $protection,
+      enabled           => $enabled,
+      aptimizer_express => $aptimizer_express
+    }
+
+    if ($ssl_decrypt == 'yes') {
+      stingray::virtual_server { "${name} ssl virtual server":
         address           => "!${name} tip",
         protocol          => 'HTTP',
-        port              => $port,
+        port              => $ssl_port,
         pool              => "${name} pool",
         caching           => $caching,
         compression       => $compression,
         compression_level => $compression_level,
         protection        => $protection,
+        ssl_decrypt       => 'yes',
         enabled           => $enabled,
         aptimizer_express => $aptimizer_express
-    }
+      }
 
-    if ($ssl_decrypt == 'yes') {
-        stingray::virtual_server { "${name} ssl virtual server":
-            address           => "!${name} tip",
-            protocol          => 'HTTP',
-            port              => $ssl_port,
-            pool              => "${name} pool",
-            caching           => $caching,
-            compression       => $compression,
-            compression_level => $compression_level,
-            protection        => $protection,
-            ssl_decrypt       => 'yes',
-            enabled           => $enabled,
-            aptimizer_express => $aptimizer_express
-        }
-
-        stingray::ssl_certificate { "${name} SSL Certificate":
-            certificate_file => $certificate_file,
-            private_key_file => $private_key_file
-        }
+      stingray::ssl_certificate { "${name} SSL Certificate":
+        certificate_file => $certificate_file,
+        private_key_file => $private_key_file
+      }
     }
 }

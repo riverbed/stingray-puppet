@@ -100,18 +100,18 @@
 # [*timeout*]
 # A connection should be closed if no additional data has been received
 # for this period of time. A value of 0 (zero) will disable this timeout.
-# Note that the default value may vary depending on the protocol selected. 
+# Note that the default value may vary depending on the protocol selected.
 #
 # [*connect_timeout*]
 # The time, in seconds, to wait for data from a new connection. If no data
 # is received within this time, the connection will be closed. A value
-# of 0 (zero) will disable the timeout. 
+# of 0 (zero) will disable the timeout.
 # The default is '10'.
 #
 # [*aptimizer_express*]
 # Aptimizer Express is an add-on module for Stingray Traffic Manager that
 # provides a set of robust optimizations to accelerate the delivery of
-# most web pages, no configuration or tuning is required. This advanced 
+# most web pages, no configuration or tuning is required. This advanced
 # capability with Stingray Aptimizer Express is available as a licensed
 # add-on module for Stingray Traffic Manager 9.5 and later.
 #
@@ -142,60 +142,60 @@
 # Copyright 2013 Riverbed Technology
 #
 define stingray::virtual_server(
-    $address             = '*',
-    $port                = 80,
-    $protocol            = 'http',
-    $pool                = 'discard',
-    $protection          = undef,
-    $bandwidth           = undef,
-    $enabled             = 'no',
-    $ssl_decrypt         = 'no',
-    $ssl_certificate     = undef,
-    $request_rules       = undef,
-    $response_rules      = undef,
-    $enable_logging      = false,
-    $log_filename        = '%zeushome%/zxtm/log/%v.log',
-    $caching             = 'no',
-    $compression         = 'no',
-    $compression_level   = undef,
-    $timeout             = undef,
-    $connect_timeout     = undef,
-    $aptimizer_express   = 'no'
+  $address             = '*',
+  $port                = 80,
+  $protocol            = 'http',
+  $pool                = 'discard',
+  $protection          = undef,
+  $bandwidth           = undef,
+  $enabled             = 'no',
+  $ssl_decrypt         = 'no',
+  $ssl_certificate     = undef,
+  $request_rules       = undef,
+  $response_rules      = undef,
+  $enable_logging      = false,
+  $log_filename        = '%zeushome%/zxtm/log/%v.log',
+  $caching             = 'no',
+  $compression         = 'no',
+  $compression_level   = undef,
+  $timeout             = undef,
+  $connect_timeout     = undef,
+  $aptimizer_express   = 'no'
 
 ) {
-    include stingray
+  include stingray
 
-    $path = $stingray::install_dir
-    $version = $stingray::version
+  $path = $stingray::install_dir
+  $version = $stingray::version
 
-    # Convert the Protocol to a code that Stingray understands
-    case downcase($protocol) {
-        'ssl (https)':          {$proto_code = 'https'}
-        'ssl (imaps)':          {$proto_code = 'imaps'}
-        'ssl (pop3s)':          {$proto_code = 'pop3s'}
-        'ssl (ldaps)':          {$proto_code = 'ldaps'}
-        'udp - streaming':      {$proto_code = 'udpstreaming'}
-        'dns (udp)':            {$proto_code = 'dns'}
-        'dns (tcp)':            {$proto_code = 'dns_tcp'}
-        'sip (udp)':            {$proto_code = 'sipudp'}
-        'sip (tcp)':            {$proto_code = 'siptcp'}
-        'generic server first': {$proto_code = 'server_first'}
-        'generic client first': {$proto_code = 'client_first'}
-        'generic streaming':    {$proto_code = 'stream'}
-        default:                {$proto_code = downcase($protocol)}
-    }
+  # Convert the Protocol to a code that Stingray understands
+  case downcase($protocol) {
+    'ssl (https)':          {$proto_code = 'https'}
+    'ssl (imaps)':          {$proto_code = 'imaps'}
+    'ssl (pop3s)':          {$proto_code = 'pop3s'}
+    'ssl (ldaps)':          {$proto_code = 'ldaps'}
+    'udp - streaming':      {$proto_code = 'udpstreaming'}
+    'dns (udp)':            {$proto_code = 'dns'}
+    'dns (tcp)':            {$proto_code = 'dns_tcp'}
+    'sip (udp)':            {$proto_code = 'sipudp'}
+    'sip (tcp)':            {$proto_code = 'siptcp'}
+    'generic server first': {$proto_code = 'server_first'}
+    'generic client first': {$proto_code = 'client_first'}
+    'generic streaming':    {$proto_code = 'stream'}
+    default:                {$proto_code = downcase($protocol)}
+  }
 
-    if $version =~ /9\.[1-4](r[1-9]|$)/ {
-        warning ("Aptimizer Express requires Stingray Traffic Manager version 9.5 or later, you are running version $version")
-        $aptimizer_express_code = 'no'
+  if $version =~ /9\.[1-4](r[1-9]|$)/ {
+    warning ("Aptimizer Express requires Stingray Traffic Manager version 9.5 or later, you are running version ${version}")
+    $aptimizer_express_code = 'no'
     } else {
-        $aptimizer_express_code = $aptimizer_express 
+      $aptimizer_express_code = $aptimizer_express
     }
 
     info ("Configuring virtual server ${name}")
     file { "${path}/zxtm/conf/vservers/${name}":
-        content => template ('stingray/virtual_server.erb'),
-        require => [ Exec['new_stingray_cluster'], ],
-        notify  => Exec['replicate_config']
+      content => template ('stingray/virtual_server.erb'),
+      require => [ Exec['new_stingray_cluster'], ],
+      notify  => Exec['replicate_config']
     }
 }
