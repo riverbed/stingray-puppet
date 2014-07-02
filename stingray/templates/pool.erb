@@ -3,6 +3,7 @@
 <%end end-%>
 <% unless @maxconns.class == NilClass -%><%="max_connections_pernode #{@maxconns}"%><%end-%>
 <% unless @persistence.class == NilClass -%><%="persistence #{@persistence}"%><%end%>
+<% unless @failure_pool.class == NilClass -%><%="failpool #{@failure_pool}"%><%end%>
 <% unless @priority.class == NilClass -%>priority!values <%=@priority.class == Array ? @priority * " " : @priority%><%end-%>
 nodes <% unless @nodes.class == NilClass -%><%=@nodes.class == Array ? @nodes * " " : @nodes.to_s %><%end%>
 monitors <%= @monitors.class == Array ? "\"" + (@monitors * "\" \"") + "\"" : "\"" + @monitors + "\""%>

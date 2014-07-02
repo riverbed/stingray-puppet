@@ -25,6 +25,10 @@
 # clear password.
 # The default value is 'No'.
 #
+# [*salt*]
+# The salt to use when *clear_pw* is set to 'Yes'.
+# The default value is 'RVBD'.
+#
 # [*use_applet*]
 # Enable the Admin Server UI traffic monitoring applet.
 # The default value is 'Yes'.
@@ -61,6 +65,7 @@
 define stingray::local_user(
   $password,
   $clear_pw             = 'No',
+  $salt                 = 'RVBD',
   $use_applet           = 'yes',
   $applet_max_vs        = 5,
   $trafficscript_editor = 'yes',
@@ -81,7 +86,7 @@ define stingray::local_user(
   if downcase($clear_pw) == 'no' {
     $pw_hash = $password
     } else {
-      $pw_hash = generate('/bin/sh', '-c', "openssl passwd -1 ${password}")
+      $pw_hash = generate('/bin/sh', '-c', "openssl passwd -salt ${salt} -1 ${password}")
     }
 
     info ("Configuring user ${name}")

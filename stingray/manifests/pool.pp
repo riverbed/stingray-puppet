@@ -69,6 +69,12 @@
 # node in this pool per machine. A value of 0 means unlimited connections.
 # The default value is 0 (unlimited connections).
 #
+# [*failure_pool*]
+# If all of the nodes in your pool have failed, requests can be diverted
+# to a failure pool. 
+# The default is to not use a failure pool.
+# 
+#
 # === Examples
 #
 #  stingray::pool { 'My Pool':
@@ -92,14 +98,15 @@
 #
 define stingray::pool(
     $nodes,
-    $weightings  = undef,
-    $monitors    = 'Ping',
-    $disabled    = '',
-    $draining    = '',
-    $algorithm   = 'Round Robin',
-    $persistence = undef,
-    $bandwidth   = undef,
-    $maxconns    = undef
+    $weightings   = undef,
+    $monitors     = 'Ping',
+    $disabled     = '',
+    $draining     = '',
+    $algorithm    = 'Round Robin',
+    $persistence  = undef,
+    $bandwidth    = undef,
+    $failure_pool = undef,
+    $maxconns     = undef
 
 ) {
     include stingray
