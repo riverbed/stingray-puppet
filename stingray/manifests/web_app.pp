@@ -10,6 +10,12 @@
 # [*nodes*]
 # An list of the nodes in host:port format.
 #
+# [*failpool_nodes*]
+# An list of the failure pool nodes in host:port format.
+# If all of the nodes in your pool have failed, requests can be diverted
+# to a failure pool. 
+# The default is to not use a failure pool.
+#
 # [*weightings*]
 # Path to the license key file. Providing no license key file defaults to
 # developer mode.
@@ -146,26 +152,27 @@
 #
 define stingray::web_app(
   $nodes,
+  $failpool_nodes    = '',
   $trafficips,
-  $weightings = undef,
-  $disabled = '',
-  $draining = '',
-  $algorithm = 'Least Connections',
-  $machines ='*',
-  $port = '80',
-  $ssl_decrypt = 'no',
-  $ssl_port = '443',
-  $certificate_file = '',
-  $private_key_file = '',
-  $monitor_path = '/',
-  $status_regex = undef,
-  $body_regex = '.*',
-  $persistence_type = 'Transparent Session Affinity',
-  $compression = 'yes',
+  $weightings        = undef,
+  $disabled          = '',
+  $draining          = '',
+  $algorithm         = 'Least Connections',
+  $machines          = '*',
+  $port              = '80',
+  $ssl_decrypt       = 'no',
+  $ssl_port          = '443',
+  $certificate_file  = '',
+  $private_key_file  = '',
+  $monitor_path      = '/',
+  $status_regex      = undef,
+  $body_regex        = '.*',
+  $persistence_type  = 'Transparent Session Affinity',
+  $compression       = 'yes',
   $compression_level = '9',
-  $caching = 'yes',
-  $enabled = 'yes',
-  $banned_ips = '',
+  $caching           = 'yes',
+  $enabled           = 'yes',
+  $banned_ips        = '',
   $aptimizer_express = 'no',
 ) {
   include stingray
@@ -198,12 +205,28 @@ define stingray::web_app(
       enabled     => $enabled
     }
 
-    stingray::pool { "${name} pool":
-      nodes       => $nodes,
-      weightings  => $weightings,
-      algorithm   => $algorithm,
-      persistence => "${name} persist",
-      monitors    => "${name} monitor"
+    if ($failpool_nodes == '') {
+      stingray::pool { "${name} pool":
+        nodes       => $nodes,
+        weightings  => $weightings,
+        algorithm   => $algorithm,
+        persistence => "${name} persist",
+        monitors    => "${name} monitor"
+      }
+    } else {
+      stingray::pool { "${name} failpool":
+        nodes       => $failpool_nodes,
+        algorithm   => $algorithm,
+        monitors    => "${name} monitor"
+      }
+      stingray::pool { "${name} pool":
+        nodes        => $nodes,
+        failure_pool => "${name} failpool",
+        weightings   => $weightings,
+        algorithm    => $algorithm,
+        persistence  => "${name} persist",
+        monitors     => "${name} monitor"
+      }
     }
 
     stingray::virtual_server { "${name} virtual server":
