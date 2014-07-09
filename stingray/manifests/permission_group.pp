@@ -1,6 +1,7 @@
 # == Define: permission_group
 #
-# Import a TrafficScript rule to the Stingray Traffic Manager catalog.
+# Create a permission group.  Permission Groups are used to restrict what
+# users can do in the SteelApp Traffic Manager.
 #
 # === Parameters
 #
@@ -20,14 +21,15 @@
 #
 # [*password_expire_time*]
 # Members of this group must renew their passwords after this number
-# of days. To disable password expiry for the group set this to 0 (zero).i
+# of days. To disable password expiry for the group set this to 0 (zero).
 # Note that this setting applies only to local users.
 # The default value is '0'.
 #
 # === Examples
 #
-#  stingray::permission_group { 'My group':
-#      file => 'puppet:///modules/stingray/rule.ts'
+#  stingray::permission_group { 'My Group':
+#      persistence => 'full',
+#      rules => 'none'
 #  }
 #
 # === Authors
