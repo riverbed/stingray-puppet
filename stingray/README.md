@@ -8,6 +8,8 @@ flexibly, and at a lower cost.
 This module installs Riverbed Stingray Traffic Manager and manages virtual
 servers, pools, traffic ip groups, etc.
 
+[What's new in Version 0.6.0][https://splash.riverbed.com/community/product-lines/steelapp/blog/2014/07/09/whats-new-in-steelapp-puppet-module-060]
+
 ## Installation
 
 The modules can be installed via puppet module tool (requires
