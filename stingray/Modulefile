@@ -1,5 +1,5 @@
 name    'riverbed-stingray'
-version '0.6.0'
+version '0.6.1'
 source 'git@github.com:riverbed/stingray-puppet.git'
 author 'riverbed'
 license 'Apache License, Version 2.0'
