@@ -74,6 +74,10 @@
 # to a failure pool. 
 # The default is to not use a failure pool.
 # 
+# [*ssl_encrypt*]
+# To enable encryption to the backend nodes
+#
+#
 #
 # === Examples
 #
@@ -106,7 +110,8 @@ define stingray::pool(
     $persistence  = undef,
     $bandwidth    = undef,
     $failure_pool = undef,
-    $maxconns     = undef
+    $maxconns     = undef,
+    $ssl_encrypt  = undef
 
 ) {
     include stingray

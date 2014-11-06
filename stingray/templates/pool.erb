@@ -13,3 +13,6 @@ draining <%= @draining.class == Array ? @draining * " " : @draining%>
 <% if @bandwidth then -%>
 bandwidth_class  <%= @bandwidth %>
 <% end -%>
+<% if @ssl_encrypt then -%>
+ssl_encrypt    <%= @ssl_encrypt %>
+<% end -%>
