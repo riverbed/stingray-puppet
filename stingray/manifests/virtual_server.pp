@@ -115,6 +115,11 @@
 # capability with Stingray Aptimizer Express is available as a licensed
 # add-on module for Stingray Traffic Manager 9.5 and later.
 #
+# [*max_client_buffer*]
+# The amount of memory, in bytes, that the virtual server should use to store
+# data sent by the client. Larger values will use more memory, but will minimise
+# the number of read() and write() system calls that the traffic manager must perform.
+#
 # === Examples
 #
 #  stingray::virtual_server { 'My Virtual Server':
@@ -160,7 +165,8 @@ define stingray::virtual_server(
   $compression_level   = undef,
   $timeout             = undef,
   $connect_timeout     = undef,
-  $aptimizer_express   = 'no'
+  $aptimizer_express   = 'no',
+  $max_client_buffer   = undef
 
 ) {
   include stingray

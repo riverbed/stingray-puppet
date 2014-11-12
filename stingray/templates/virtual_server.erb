@@ -11,6 +11,9 @@ protocol <%= @proto_code %>
 log!enabled     Yes
 log!filename    <%= @log_filename %>
 <% end -%>
+<% if @max_client_buffer then -%>
+max_client_buffer       <%= @max_client_buffer %>
+<% end -%>
 <% if @ssl_decrypt == "yes" then -%>ssl_decrypt Yes
 ssl_ocsp!issuer!_DEFAULT_!aia	Yes
 ssl_ocsp!issuer!_DEFAULT_!nonce	off
