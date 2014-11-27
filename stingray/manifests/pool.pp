@@ -77,6 +77,8 @@
 # [*ssl_encrypt*]
 # To enable encryption to the backend nodes
 #
+# [*passive_monitoring*]
+# To enable or disable passive_monitoring
 #
 #
 # === Examples
@@ -111,7 +113,8 @@ define stingray::pool(
     $bandwidth    = undef,
     $failure_pool = undef,
     $maxconns     = undef,
-    $ssl_encrypt  = undef
+    $ssl_encrypt  = undef,
+    $passive_monitoring = undef
 
 ) {
     include stingray
