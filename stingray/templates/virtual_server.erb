@@ -44,3 +44,7 @@ gzip!compresslevel  <%= @compression_level %>
 <% if @aptimizer_express_code == "yes" then -%>
 aptimizer!enabled Yes
 <% end -%>
+<% unless @ssl_sites.class == NilClass then @ssl_sites.each do |hostname,certificate|-%>
+<%="ssl_sites!#{hostname}!private_key     #{certificate}.private"%>
+<%="ssl_sites!#{hostname}!public_cert     #{certificate}.public"%>
+<%end end-%>
