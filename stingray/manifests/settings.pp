@@ -64,7 +64,7 @@ define stingray::settings(
     $flipper_autofailback = 'Yes',
     $flipper_frontend_check_addrs = '%gateway%',
     $flipper_monitor_interval = 500, # in milliseconds
-    $flipper_monitor_timeout = 5 # in seconds
+    $flipper_monitor_timeout = 5, # in seconds
     $flipper_unicast_port = 9090
 ) {
     include stingray
