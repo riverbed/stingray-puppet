@@ -81,6 +81,7 @@ define stingray::trafficipgroup(
     file { "${path}/zxtm/conf/flipper/.${name}":
         ensure  => present,
         content => template ('stingray/trafficipgroup.erb'),
+        require => Exec['new_stingray_cluster']
     }
 
     exec { "${path}/zxtm/bin/puppet_tip.sh \"${path}\" \"${name}\" ${tip_machines}":
