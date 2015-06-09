@@ -7,4 +7,3 @@ flipper!frontend_check_addrs <%= @flipper_frontend_check_addrs %>
 #flipper!heartbeat_method <%= @flipper_heartbeat_method %>
 flipper!monitor_interval <%= @flipper_monitor_interval %>
 flipper!monitor_timeout <%= @flipper_monitor_timeout %>
-trafficscript!variable_pool_use <%= @ts_variable_pool_use %>

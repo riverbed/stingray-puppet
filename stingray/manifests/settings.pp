@@ -42,6 +42,10 @@
 # Traffic Manager machines before registering a failure.
 # Defaults to '5' seconds.
 #
+# [*ts_variable_pool_use*]
+# Allow TraffisCript to use pool variables
+# Default is 'No'
+#
 # === Examples
 #
 #  stingray::settings { 'My Settings':
@@ -64,8 +68,9 @@ define stingray::settings(
     $flipper_autofailback = 'Yes',
     $flipper_frontend_check_addrs = '%gateway%',
     $flipper_monitor_interval = 500, # in milliseconds
-    $flipper_monitor_timeout = 5 # in seconds
-
+    $flipper_monitor_timeout = 5, # in seconds
+    $flipper_unicast_port = 9090,
+    $ts_variable_pool_use = 'No'
 ) {
     include stingray
 
@@ -73,5 +78,6 @@ define stingray::settings(
 
     file { "${path}/zxtm/conf/settings.cfg":
         content => template ('stingray/settings.erb'),
+        require => Exec['new_stingray_cluster']
     }
 }

@@ -115,17 +115,9 @@
 # capability with Stingray Aptimizer Express is available as a licensed
 # add-on module for Stingray Traffic Manager 9.5 and later.
 #
-# [*max_client_buffer*]
-# The amount of memory, in bytes, that the virtual server should use to store
-# data sent by the client. Larger values will use more memory, but will minimise
-# the number of read() and write() system calls that the traffic manager must perform.
-#
-# [*ssl_sites*]
-# The SSL certificate mapping you can use for additional certificates that can be supplied 
-# to match different sites hosted by this virtual server. You can specify a different 
-# certificate for any hostname or IP address. The wildcard character '*' can be used to match
-# multiple hostnames. If none of the addresses or hostnames match the default certificate will be used.
-# you can specify an array like {'hostname' => 'certificate', 'hostname' => 'certificate'} 
+# [*rc_save_all*]
+# set line recent_conns!save_all
+# Default is undef
 #
 # === Examples
 #
@@ -143,8 +135,6 @@
 #      enabled         => 'yes',
 #      ssl_decrypt     => 'yes',
 #      ssl_certificate => 'My SSL Certificate'
-#      ssl_sites       => {'hostname1' => 'certificate1',
-#                          'hostname2' => 'certificate2'}
 #  }
 #
 # === Authors
@@ -175,9 +165,8 @@ define stingray::virtual_server(
   $timeout             = undef,
   $connect_timeout     = undef,
   $aptimizer_express   = 'no',
-  $max_client_buffer   = undef,
-  $ssl_sites           = undef
-
+  $rc_save_all         = undef,
+  $error_file          = undef
 ) {
   include stingray
 
